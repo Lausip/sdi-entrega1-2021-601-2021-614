@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.uniovi.entities.User;
 import com.uniovi.services.RolesService;
+import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
 import com.uniovi.validators.SignUpFormValidator;
 
@@ -21,6 +22,9 @@ public class UsersController {
 	
 	@Autowired
 	private RolesService rolesService;
+	
+	@Autowired
+	private SecurityService securityService;
 	
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
