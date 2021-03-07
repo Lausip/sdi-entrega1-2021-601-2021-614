@@ -1,6 +1,8 @@
 package com.uniovi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,6 +37,7 @@ public class UsersController {
 		return "signup";
 	}
 	
+	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public String signup(@Validated User user, BindingResult result) {
 		signUpFormValidator.validate(user, result);
@@ -47,4 +50,12 @@ public class UsersController {
 		return "redirect:home";
 	}
 	
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(Model model) {
+        return "login";
+    }
+	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
+	public String home(Model model) {
+		return "home";
+	}
 }
