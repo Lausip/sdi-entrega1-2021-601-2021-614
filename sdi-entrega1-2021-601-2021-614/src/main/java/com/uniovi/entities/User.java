@@ -26,7 +26,8 @@ public class User {
 	
 	@Transient
 	private String passwordConfirm;
-
+	
+	private double money;
 	
 	public User() {
 		
@@ -97,6 +98,15 @@ public class User {
 	
 	public String getFullName() {
 		return this.name + " " + this.lastName;
+	}
+
+	public void setMoney(double money) {
+		this.money=money;
+		
+	}
+
+	public double getMoney() {
+		return money;
 	}
 
 }
