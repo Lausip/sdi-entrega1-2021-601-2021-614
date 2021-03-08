@@ -23,6 +23,16 @@
 					</ul>
 				</li>
 				
+					<li id="offers-menu" class="dropdown">
+					<a class="dorpdown-toggle" data-toggle="dropdown" href="#" th:text="#{offer.management}">
+						Gestión de Ofertas
+						<span class="caret"></span>
+					</a>
+					<ul class=dropdown-menu sec:authorize="hasRole('ROLE_STANDARD')">
+						<li><a href="/offer/add" th:text="#{offer.add.title}">Añadir Oferta</a></li>
+					</ul>
+				</li>
+				
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">

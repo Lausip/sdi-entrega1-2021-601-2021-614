@@ -1,9 +1,14 @@
 package com.uniovi.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -28,6 +33,9 @@ public class User {
 	private String passwordConfirm;
 	
 	private double money;
+	
+	@OneToMany(mappedBy = "user",  cascade=CascadeType.ALL)
+	private Set<Offer> offers = new HashSet<Offer>();
 	
 	public User() {
 		
@@ -107,6 +115,14 @@ public class User {
 
 	public double getMoney() {
 		return money;
+	}
+	
+	public Set<Offer> getOffers() {
+		return offers;
+	}
+
+	public void setOffers(Set<Offer> offers) {
+		this.offers = offers;
 	}
 
 }
