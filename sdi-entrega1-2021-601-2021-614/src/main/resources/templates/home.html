@@ -10,19 +10,12 @@
 <div class="container" style="text-align: center">
 	<h2 th:text="#{welcome.message}"></h2>
 	
-	<!--
-	<h3>Esta es una zona privada la web</h3>
-
-	<p>
-		Usuario Autenticado como:
-		<span sec:authentication="principal.username" th:inline="text"></span>
-	</p>
-
-	<p>Notas del usuario</p>
-	
-	<div th:replace="fragments/tableMarks"/>
-	
-	-->
+		<h3 th:text="#{home.subtittle}"></h3>
+		<p>
+			<span th:text="#{home.autentication}">Usuario autenticado como</span>
+			 <span sec:authentication="principal.username" th:inline="text"> </span>
+		</p>
+		
 	
 </div>
 
