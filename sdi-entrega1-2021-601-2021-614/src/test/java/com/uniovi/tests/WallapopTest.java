@@ -16,6 +16,7 @@ import com.uniovi.tests.pageobjects.PO_LoginView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
+import com.uniovi.tests.util.SeleniumUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WallapopTest {
@@ -98,5 +99,21 @@ public class WallapopTest {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
 		PO_LoginView.fillForm(driver, "Joselito@gmail.com", "123456");
 		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
+	}
+	
+	// Hacer click en la opción de salir de sesión y comprobar que se redirige a la página de inicio
+	// de sesión (Login).
+	@Test
+	public void PR10() {
+		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_PrivateView.logout(driver);
+	}
+	// Comprobar que el botón cerrar sesión no está visible si el usuario no está
+	// autenticado.
+	@Test
+	public void PR11() {
+		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_PrivateView.logout(driver);
+		SeleniumUtils.textoNoPresentePagina(driver, "Desconectar");
 	}
 }
