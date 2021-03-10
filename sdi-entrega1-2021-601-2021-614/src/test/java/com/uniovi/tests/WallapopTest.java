@@ -1,5 +1,9 @@
 package com.uniovi.tests;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -7,15 +11,16 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
+import com.uniovi.tests.pageobjects.PO_View;
 import com.uniovi.tests.util.SeleniumUtils;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -116,4 +121,17 @@ public class WallapopTest {
 		PO_PrivateView.logout(driver);
 		SeleniumUtils.textoNoPresentePagina(driver, "Desconectar");
 	}
+	
+	// Mostrar el listado de usuarios y comprobar que se muestran todos los que
+		// existen en el sistema.
+		@Test
+		public void PR12() {
+			PO_PrivateView.login(driver, "admin@email.com", "admin");
+			List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "users-menu", PO_View.getTimeout());
+			elementos.get(0).click();
+			elementos = SeleniumUtils.EsperaCargaPagina(driver, "@href", "/user/list", PO_View.getTimeout());
+			elementos.get(0).click();
+			assertTrue(driver.findElements(By.xpath("//table/tbody/tr")).size() == 2);
+		}
+
 }
