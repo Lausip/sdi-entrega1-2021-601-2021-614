@@ -63,14 +63,14 @@
 					</a>
 				</li>
 				<li sec:authorize="!isAuthenticated()">
-					<a href="/login" th:text="#{login.message}">
+					<a href="/login" th:text="#{login.message.nav}">
 						<span class="glyphicon glyphicon-log-in"></span>
-						Identifícate
+						Inicio Sesión
 					</a>
 				</li>
 
 				<li sec:authorize="isAuthenticated()">
-					<a href="/logout">
+					<a href="/logout" th:text="#{logout.message}">
 						<span class="glyphicon glyphicon-log-out"></span>
 						Desconectar
 					</a>
