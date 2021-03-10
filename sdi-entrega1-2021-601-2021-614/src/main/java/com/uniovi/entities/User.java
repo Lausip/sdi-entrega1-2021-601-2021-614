@@ -32,7 +32,7 @@ public class User {
 	@Transient
 	private String passwordConfirm;
 	
-	private double money;
+	private double money = 100;
 	
 	@OneToMany(mappedBy = "user",  cascade=CascadeType.ALL)
 	private Set<Offer> offers = new HashSet<Offer>();
@@ -110,7 +110,6 @@ public class User {
 
 	public void setMoney(double money) {
 		this.money=money;
-		
 	}
 
 	public double getMoney() {
