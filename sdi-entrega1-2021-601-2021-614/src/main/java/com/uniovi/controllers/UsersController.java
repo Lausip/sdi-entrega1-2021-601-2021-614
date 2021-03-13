@@ -47,7 +47,7 @@ public class UsersController {
 		}
 		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
-		//securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
+		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
 		return "redirect:home";
 	}
 	
@@ -55,15 +55,22 @@ public class UsersController {
     public String login(Model model) {
         return "login";
     }
+	
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
 	public String home(Model model) {
+		model.addAttribute("userAuthenticated", getUserAuthenticated());
 		return "home";
 	}
 	
-
 	@RequestMapping("/user/list")
 	public String getListado(Model model) {
 		model.addAttribute("usersList", usersService.getUsers());
 		return "user/list";
+	}
+	
+	public User getUserAuthenticated() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String email = auth.getName();
+		return usersService.getUserByEmail(email);
 	}
 }

@@ -9,10 +9,7 @@
 
 <div class="container" style="text-align: center">
 		<h2 th:text="#{home.subtittle}"></h2>
-		<p>
-			<span th:text="#{home.autentication}">Usuario autenticado como</span>
-			 <span sec:authentication="principal.username" th:inline="text"> </span>
-		</p>
+		<p th:replace="fragments/authenticated"></p>
 		
 	
 </div>
