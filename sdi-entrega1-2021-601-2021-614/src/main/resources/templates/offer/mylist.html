@@ -14,6 +14,7 @@
 						<th class="col-md-2" th:text="#{offer.mylist.title2}"></th>
 						<th th:text="#{offer.mylist.description}"></th>
 						<th th:text="#{offer.mylist.price}"></th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -21,6 +22,10 @@
 						<td th:text="${offer.titulo}"></td>
 						<td th:text="${offer.description}"></td>
 						<td th:text="${offer.price}"></td>
+						<td>
+							<a sec:authorize="hasRole('ROLE_STANDARD')"
+							th:href="${'/offer/delete/' + offer.id}" th:text="#{delete}">Eliminar</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>

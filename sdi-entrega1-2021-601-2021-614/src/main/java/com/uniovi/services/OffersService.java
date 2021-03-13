@@ -1,10 +1,6 @@
 package com.uniovi.services;
 
-
-
 import java.util.Date;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +9,6 @@ import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.OffersRepository;
 import com.uniovi.repositories.UsersRepository;
-
 
 @Service
 public class OffersService {
@@ -33,6 +28,14 @@ public class OffersService {
 
 	public Page<Offer> findAllByUser(Pageable pageable,User user) {
 		return offersRepository.findAllByUser(pageable,user);
+	}
+	
+	public void deleteOffer(Long id) {
+		offersRepository.deleteById(id);
+	}
+	
+	public Offer getOfferById(Long id) {
+		return offersRepository.findById(id).get();
 	}
 
 }

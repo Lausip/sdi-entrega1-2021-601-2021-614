@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.uniovi.entities.Offer;
@@ -23,11 +24,15 @@ import com.uniovi.validators.AddOfferFormValidator;
 
 @Controller
 public class OffersController {
+	
 	private static final Logger logger = LogManager.getLogger(OffersController.class);
+	
 	@Autowired
 	private OffersService offersService;
+	
 	@Autowired
 	private AddOfferFormValidator addOfferFormValidator;
+	
 	@Autowired
 	private UsersService usersService;
 	
@@ -38,7 +43,7 @@ public class OffersController {
 		return "offer/add";
 	}
 	
-	@RequestMapping(value = "/offer/add", method = RequestMethod.POST )
+	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
 	public String setOffer(Model model, @Validated Offer offer, BindingResult result, Principal principal) {
 		addOfferFormValidator.validate(offer, result);
 		if (result.hasErrors()) {
@@ -50,6 +55,7 @@ public class OffersController {
 		logger.info(String.format("Add item %s", offer.getTitulo()));
 		return "redirect:/home";
 	}
+	
 	@RequestMapping(value = "/offer/mylist")
 	public String getOffersForUser(Model model ,Pageable pageable, Principal principal) {
 		String email = principal.getName();
@@ -61,5 +67,12 @@ public class OffersController {
 		return "offer/mylist";
 	}
 	
+	@RequestMapping("/offer/delete/{id}")
+	public String deleteOffer(@PathVariable Long id) {
+		if (offersService.getOfferById(id).getUser().getId() == usersService.getUserAuthenticated().getId()) {
+			offersService.deleteOffer(id);
+		}
+		return "redirect:/offer/mylist";
+	}
 	
 }
