@@ -32,7 +32,8 @@ public class OffersService {
 	}
 
 	public Page<Offer> findAllByUser(Pageable pageable,User user) {
-		return offersRepository.findAllByUser(pageable,user);
+		//return offersRepository.findAllByUser(pageable,user);
+		return null;
 	}
 
 }
