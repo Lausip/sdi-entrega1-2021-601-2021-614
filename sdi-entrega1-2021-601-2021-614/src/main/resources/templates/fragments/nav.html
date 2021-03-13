@@ -19,7 +19,7 @@
 						<span class="caret"></span>
 					</a>
 					<ul class=dropdown-menu sec:authorize="hasRole('ROLE_ADMIN')">
-						<li><a href="/user/list" th:text="#{users.view}">Ver usuarios</a></li>
+						<li><a href="/user/list"  th:text="#{users.view}">Ver usuarios</a></li>
 					</ul>
 				</li>
 				
@@ -27,9 +27,11 @@
 					<a class="dorpdown-toggle" data-toggle="dropdown" href="#" th:text="#{offer.management}">
 						Gestión de Ofertas
 						<span class="caret"></span>
+				
 					</a>
-					<ul class=dropdown-menu sec:authorize="hasRole('ROLE_STANDARD')">
+					<ul class="dropdown-menu" sec:authorize="hasRole('ROLE_STANDARD')">
 						<li><a href="/offer/add" th:text="#{offer.add.title}">Añadir Oferta</a></li>
+						<li><a href="/offer/mylist" th:text="#{offer.myOffer.title}">Mis Ofertas</a></li>
 					</ul>
 				</li>
 				
@@ -61,14 +63,14 @@
 					</a>
 				</li>
 				<li sec:authorize="!isAuthenticated()">
-					<a href="/login" th:text="#{login.message}">
+					<a href="/login" th:text="#{login.message.nav}">
 						<span class="glyphicon glyphicon-log-in"></span>
-						Identifícate
+						Inicio Sesión
 					</a>
 				</li>
 
 				<li sec:authorize="isAuthenticated()">
-					<a href="/logout">
+					<a href="/logout" th:text="#{logout.message}">
 						<span class="glyphicon glyphicon-log-out"></span>
 						Desconectar
 					</a>
