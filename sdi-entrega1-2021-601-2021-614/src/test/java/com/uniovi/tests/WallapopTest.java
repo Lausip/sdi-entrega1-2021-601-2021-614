@@ -26,8 +26,14 @@ import com.uniovi.tests.util.SeleniumUtils;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class WallapopTest {
 
+	// Parámetros de Laura
+//	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+//	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	
+	// Parámetros de Rut
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\rualg\\OneDrive\\Escritorio\\SDI\\Práctica5\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
 	static String URL = "http://localhost:8090";
@@ -61,6 +67,72 @@ public class WallapopTest {
 	static public void end() {
 		// Cerramos el navegador al finalizar las pruebas
 		driver.quit();
+	}
+	
+	// Registro de usuario con datos válidos.
+	@Test
+	public void PR01() {
+		
+		//Vamos al formulario de registro
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		
+		//Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "prueba1@example.com", "Juan", "Pérez", "123456", "123456");
+		
+		//Comprobamos que entramos en la sección privada
+		PO_View.checkElement(driver, "text", "prueba1@example.com");
+		
+	}
+	
+	// Registro de usuario con datos inválidos (email vacío, nombre vacío, apellidos vacíos).
+	@Test
+	public void PR02() {
+		
+		//Vamos al formulario de registro
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		
+		//Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "", "", "", "123456", "123456");
+		
+		//Comprobamos el error de email vacío.
+		PO_RegisterView.checkKey(driver, "Error.empty.email", PO_Properties.getSPANISH());
+		
+		//Comprobamos el error de nombre vacío.
+		PO_RegisterView.checkKey(driver, "Error.empty.name", PO_Properties.getSPANISH());
+		
+		//Comprobamos el error de apellidos vacío.
+		PO_RegisterView.checkKey(driver, "Error.empty.lastName", PO_Properties.getSPANISH());
+		
+	}
+	
+	// Registro de usuario con datos inválidos (repetición de contraseña inválida).
+	@Test
+	public void PR03() {
+		
+		//Vamos al formulario de registro
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		
+		//Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "prueba3@example.com", "Pepe", "Álvarez", "123456", "123457");
+		
+		//Comprobamos el error de repetición de contraseña inválida.
+		PO_RegisterView.checkKey(driver, "Error.signup.passwordConfirm.coincidence", PO_Properties.getSPANISH());
+		
+	}
+	
+	// Registro de usuario con datos inválidos (email existente).
+	@Test
+	public void PR04() {
+		
+		//Vamos al formulario de registro
+		PO_HomeView.clickOption(driver, "signup", "class", "btn btn-primary");
+		
+		//Rellenamos el formulario.
+		PO_RegisterView.fillForm(driver, "prueba1@example.com", "Francisco", "López", "123456", "123456");
+		
+		//Comprobamos el error de repetición de contraseña inválida.
+		PO_RegisterView.checkKey(driver, "Error.signup.email.duplicate", PO_Properties.getSPANISH());
+		
 	}
 
 	// Inicio de sesión con datos válidos (administrador).
