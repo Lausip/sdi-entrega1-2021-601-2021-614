@@ -25,6 +25,10 @@ public class UsersService {
 		return usersRepository.findByEmail(email);
 	}
 	
+	public User getUserById(Long id) {
+		return usersRepository.findById(id).get();
+	}
+	
 	public void addUser(User user) {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		usersRepository.save(user);
@@ -38,12 +42,6 @@ public class UsersService {
 	
 	public void deleteUser(Long id) {
 		usersRepository.deleteById(id);
-	}
-	
-	public void deleteUsers(List<Long> userIds) {
-		for (Long id : userIds) {
-			deleteUser(id);
-		}
 	}
 	
 	public User getUserAuthenticated() {

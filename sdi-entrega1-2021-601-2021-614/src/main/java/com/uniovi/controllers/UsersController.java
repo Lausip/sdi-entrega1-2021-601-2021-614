@@ -69,7 +69,12 @@ public class UsersController {
 	
 	@RequestMapping("/user/delete")
 	public String deleteUsers(Model model, @RequestParam List<Long> userIds) {
-		usersService.deleteUsers(userIds);
+		for (Long id : userIds) {
+			User user = usersService.getUserById(id);
+			if (!user.getEmail().equals("admin@email.com")) {
+				usersService.deleteUser(id);
+			}
+		}
 		return "redirect:/user/list";
 	}
 }
