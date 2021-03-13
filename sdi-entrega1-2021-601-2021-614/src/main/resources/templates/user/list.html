@@ -7,6 +7,20 @@
 		<h2 th:text="#{user.list.title}">Usuarios</h2>
 		<p th:text="#{user.list.subtitle}">Los usuarios que actualmente
 			figuran en el sistema son los siguientes:</p>
+			
+			<button type="button" id="deleteButton" class="btn btn-default" th:text="#{delete}" disabled>Eliminar</button>
+			<script>
+				$( "#deleteButton" ).click(function() {
+					var userIds = getUserIdsFromSelectedCheckboxes();
+					var href = '/user/delete?userIds=';
+					for (var i = 0; i < userIds.length - 1; i++) {
+						href += userIds[i] + ',';
+					}
+					href += userIds[userIds.length - 1];
+					window.location.href = href;
+				});
+			</script>
+			
 			<div class="table-responsive">
 				<table class="table table-hover">
 					<thead>
@@ -18,6 +32,7 @@
 					</thead>
 					<tbody>
 						<tr th:each="user : ${usersList}">
+							<td><input type="checkbox" name="deleteUsersCheckbox" onchange="checkNumberOfSelectedCheckboxes()" th:value="${user.id}"></input></td>
 							<td th:text="${user.email}"></td>
 							<td th:text="${user.name}"></td>
 							<td th:text="${user.lastName}"></td>

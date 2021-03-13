@@ -33,6 +33,15 @@ public class UsersService {
 		usersRepository.findAll().forEach(users::add);
 		return users;
 	}
-
+	
+	public void deleteUser(Long id) {
+		usersRepository.deleteById(id);
+	}
+	
+	public void deleteUsers(List<Long> userIds) {
+		for (Long id : userIds) {
+			deleteUser(id);
+		}
+	}
 	
 }
