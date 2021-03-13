@@ -13,7 +13,7 @@
 			<ul class="nav navbar-nav" sec:authorize="isAuthenticated()">
 				<li><a href="/">Home</a></li>
 
-				<li id="users-menu" class="dropdown">
+				<li id="users-menu" class="dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
 					<a class="dorpdown-toggle" data-toggle="dropdown" href="#" th:text="#{users.management}">
 						Gestión de usuarios
 						<span class="caret"></span>

@@ -206,22 +206,128 @@ public class WallapopTest {
 		assertTrue(driver.findElements(By.xpath("//table/tbody/tr")).size() == 2);
 	}
 	
-	//
+	/* Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar
+	 * que la lista se actualiza y que el usuario desaparece.
+	 */
 	@Test
 	public void PR13() {
 		
+		// Iniciamos sesión como el usuario administrador.
+		PO_PrivateView.login(driver, "admin@email.com", "admin");
+		
+		// Pinchamos en la opción de gestión de usuarios del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'users-menu')]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de usuarios.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que se muestre hasta el último usuario.
+		elementos = PO_View.checkElement(driver, "text", "Alonso de la Torre");
+		
+		// Seleccionamos el checkbox del primero los usuarios de la lista.
+		WebElement checkbox = driver.findElement(By.id("deleteUsersCheckbox2"));
+		checkbox.click();
+		
+		// Hacemos click en el botón de Eliminar.
+		WebElement button = driver.findElement(By.id("deleteButton"));
+		button.click();
+		
+		// Esperamos a que vuelva a cargar la página.
+		elementos = PO_View.checkElement(driver, "text", "Alonso de la Torre");
+		
+		// Comprobamos que el usuario ya no está en la lista.
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Javi@gmail.com", PO_View.getTimeout());
+		
+		// Finalmente, nos desconectamos.
+		PO_PrivateView.logout(driver);
 	}
 	
-	//
+	/*
+	 * Ir a la lista de usuarios, borrar el último usuario de la lista, comprobar
+	 * que la lista se actualiza y que el usuario desaparece.
+	 */
 	@Test
 	public void PR14() {
 		
+		// Iniciamos sesión como el usuario administrador.
+		PO_PrivateView.login(driver, "admin@email.com", "admin");
+		
+		// Pinchamos en la opción de gestión de usuarios del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'users-menu')]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de usuarios.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que se muestre hasta el último usuario.
+		elementos = PO_View.checkElement(driver, "text", "Alonso de la Torre");
+		
+		// Seleccionamos el checkbox del primero los usuarios de la lista.
+		WebElement checkbox = driver.findElement(By.id("deleteUsersCheckbox9"));
+		checkbox.click();
+		
+		// Hacemos click en el botón de Eliminar.
+		WebElement button = driver.findElement(By.id("deleteButton"));
+		button.click();
+		
+		// Esperamos a que vuelva a cargar la página.
+		elementos = PO_View.checkElement(driver, "text", "García del Monte");
+		
+		// Comprobamos que el usuario ya no está en la lista.
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "pepita@email.com", PO_View.getTimeout());
+		
+		// Finalmente, nos desconectamos.
+		PO_PrivateView.logout(driver);
 	}
 	
-	//
+	/*
+	 * Ir a la lista de usuarios, borrar 3 usuarios, comprobar que la lista se
+	 * actualiza y que los usuarios desaparecen.
+	 */
 	@Test
 	public void PR15() {
 		
+		// Iniciamos sesión como el usuario administrador.
+		PO_PrivateView.login(driver, "admin@email.com", "admin");
+		
+		// Pinchamos en la opción de gestión de usuarios del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'users-menu')]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de usuarios.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'user/list')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que se muestre hasta el último usuario.
+		elementos = PO_View.checkElement(driver, "text", "García del Monte");
+		
+		// Seleccionamos el checkbox de los usuarios de la lista con ids 4, 6 y 7.
+		WebElement checkbox = driver.findElement(By.id("deleteUsersCheckbox4"));
+		checkbox.click();
+		
+		checkbox = driver.findElement(By.id("deleteUsersCheckbox6"));
+		checkbox.click();
+		
+		checkbox = driver.findElement(By.id("deleteUsersCheckbox7"));
+		checkbox.click();
+		
+		// Hacemos click en el botón de Eliminar.
+		WebElement button = driver.findElement(By.id("deleteButton"));
+		button.click();
+		
+		// Esperamos a que vuelva a cargar la página.
+		elementos = PO_View.checkElement(driver, "text", "García del Monte");
+		
+		// Comprobamos que el usuario ya no está en la lista.
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "juana@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "susana@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "javier@email.com", PO_View.getTimeout());
+		
+		// Finalmente, nos desconectamos.
+		PO_PrivateView.logout(driver);
 	}
 
 }

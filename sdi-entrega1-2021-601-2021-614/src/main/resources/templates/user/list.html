@@ -35,7 +35,8 @@
 						<tr th:each="user : ${usersList}">
 							<td>
 								<input th:if="${user.email != 'admin@email.com'}" type="checkbox" name="deleteUsersCheckbox"
-								onchange="checkNumberOfSelectedCheckboxes()" th:value="${user.id}"></input>
+								onchange="checkNumberOfSelectedCheckboxes()" th:value="${user.id}"
+								th:id="${'deleteUsersCheckbox' + user.id}"></input>
 							</td>
 							<td th:text="${user.email}"></td>
 							<td th:text="${user.name}"></td>
