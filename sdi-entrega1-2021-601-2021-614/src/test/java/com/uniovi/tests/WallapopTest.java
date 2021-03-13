@@ -195,15 +195,33 @@ public class WallapopTest {
 	}
 	
 	// Mostrar el listado de usuarios y comprobar que se muestran todos los que
-		// existen en el sistema.
-		@Test
-		public void PR12() {
-			PO_PrivateView.login(driver, "admin@email.com", "admin");
-			List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "users-menu", PO_View.getTimeout());
-			elementos.get(0).click();
-			elementos = SeleniumUtils.EsperaCargaPagina(driver, "@href", "/user/list", PO_View.getTimeout());
-			elementos.get(0).click();
-			assertTrue(driver.findElements(By.xpath("//table/tbody/tr")).size() == 2);
-		}
+	// existen en el sistema.
+	@Test
+	public void PR12() {
+		PO_PrivateView.login(driver, "admin@email.com", "admin");
+		List<WebElement> elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", "users-menu", PO_View.getTimeout());
+		elementos.get(0).click();
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "@href", "/user/list", PO_View.getTimeout());
+		elementos.get(0).click();
+		assertTrue(driver.findElements(By.xpath("//table/tbody/tr")).size() == 2);
+	}
+	
+	//
+	@Test
+	public void PR13() {
+		
+	}
+	
+	//
+	@Test
+	public void PR14() {
+		
+	}
+	
+	//
+	@Test
+	public void PR15() {
+		
+	}
 
 }
