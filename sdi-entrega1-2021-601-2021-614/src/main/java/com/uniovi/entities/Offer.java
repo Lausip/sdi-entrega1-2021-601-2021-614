@@ -32,7 +32,16 @@ public class Offer {
 		this.user=user;
 	}
 	
+	public Offer(String titulo, String description, Double price) {
+		super();
+		this.description = description;
+		this.price = price;
+		this.date = new Date(new java.util.Date().getTime());
+		this.titulo = titulo;
+	}
+	
 	public Offer() {
+		
 	}
 
 	public Long getId() {
@@ -82,7 +91,5 @@ public class Offer {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-
 
 }

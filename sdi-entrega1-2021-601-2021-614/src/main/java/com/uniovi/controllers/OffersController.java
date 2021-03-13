@@ -49,27 +49,27 @@ public class OffersController {
 		if (result.hasErrors()) {
 			return "/offer/add";
 		}
-		String email = principal.getName();
-		User user = usersService.getUserByEmail(email);
+		User user = usersService.getUserAuthenticated();
 		offersService.addOffer(offer, user);
 		logger.info(String.format("Add item %s", offer.getTitulo()));
 		return "redirect:/home";
 	}
 	
 	@RequestMapping(value = "/offer/mylist")
-	public String getOffersForUser(Model model ,Pageable pageable, Principal principal) {
-		String email = principal.getName();
-		User user = usersService.getUserByEmail(email);
-		Page<Offer> offer = new PageImpl<Offer>(new LinkedList<Offer>());
-		offer=offersService.findAllByUser(pageable,user);
-		model.addAttribute("myOffers",offer.getContent());
-		model.addAttribute("page", offer);
+	public String getOffersForUser(Model model, Pageable pageable, Principal principal) {
+		User user = usersService.getUserAuthenticated();
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
+		offers = offersService.findAllByUser(pageable, user);
+		model.addAttribute("myOffers", offers.getContent());
+		model.addAttribute("page", offers);
 		return "offer/mylist";
 	}
 	
 	@RequestMapping("/offer/delete/{id}")
 	public String deleteOffer(@PathVariable Long id) {
-		if (offersService.getOfferById(id).getUser().getId() == usersService.getUserAuthenticated().getId()) {
+		Long offerUserId = offersService.getOfferById(id).getUser().getId();
+		Long authenticatedUserId = usersService.getUserAuthenticated().getId();
+		if (offerUserId == authenticatedUserId) {
 			offersService.deleteOffer(id);
 		}
 		return "redirect:/offer/mylist";

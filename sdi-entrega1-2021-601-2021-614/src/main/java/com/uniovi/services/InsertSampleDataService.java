@@ -1,25 +1,28 @@
 package com.uniovi.services;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 
 @Service
 public class InsertSampleDataService {
+	
 	@Autowired
 	private RolesService rolesService;
+	
 	@Autowired
 	private UsersService usersService;
 
+	@Autowired
+	private OffersService offersService;
 
 	@PostConstruct
 	public void init() {
+		
 		User user1 = new User("admin@email.com", "Admin", "Admin");
 		user1.setPassword("admin");
 		user1.setRole(rolesService.getRoles()[1]);
@@ -64,6 +67,25 @@ public class InsertSampleDataService {
 		user9.setPassword("123456");
 		user9.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user9);
+		
+		Offer offer1 = new Offer("Juguete", "Juguete infantil", 10.0);
+		Offer offer2 = new Offer("Caja", "Caja de cartón azul", 5.0);
+		Offer offer3 = new Offer("Papel", "Papel de regalo", 1.0);
+		Offer offer4 = new Offer("Folios", "Paquete de 500 folios", 4.0);
+		Offer offer5 = new Offer("Bolígrafo", "Bolígrafo de tinta líquida", 2.0);
+		Offer offer6 = new Offer("Bicicleta", "Bicicleta infantil", 70.0);
+		Offer offer7 = new Offer("Patinete", "Patinete eléctrico", 280.0);
+		Offer offer8 = new Offer("Rotuladores", "Rotuladores de colores", 12.0);
+		
+		offersService.addOffer(offer1, user3);
+		offersService.addOffer(offer2, user3);
+		offersService.addOffer(offer3, user3);
+		offersService.addOffer(offer4, user3);
+		offersService.addOffer(offer5, user3);
+		offersService.addOffer(offer6, user3);
+		offersService.addOffer(offer7, user3);
+		offersService.addOffer(offer8, user3);
+		
 	}
 
 }

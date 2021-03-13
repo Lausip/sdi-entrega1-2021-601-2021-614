@@ -16,7 +16,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
-import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
@@ -265,7 +264,7 @@ public class WallapopTest {
 		// Esperamos a que se muestre hasta el último usuario.
 		elementos = PO_View.checkElement(driver, "text", "Alonso de la Torre");
 		
-		// Seleccionamos el checkbox del primero los usuarios de la lista.
+		// Seleccionamos el checkbox del último los usuarios de la lista.
 		WebElement checkbox = driver.findElement(By.id("deleteUsersCheckbox9"));
 		checkbox.click();
 		
@@ -321,10 +320,92 @@ public class WallapopTest {
 		// Esperamos a que vuelva a cargar la página.
 		elementos = PO_View.checkElement(driver, "text", "García del Monte");
 		
-		// Comprobamos que el usuario ya no está en la lista.
+		// Comprobamos que los usuarios ya no está en la lista.
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "juana@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "susana@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "javier@email.com", PO_View.getTimeout());
+		
+		// Finalmente, nos desconectamos.
+		PO_PrivateView.logout(driver);
+	}
+	
+	/* 
+	 * Ir a la lista de ofertas, borrar la primera oferta de la lista, comprobar
+	 * que la lista se actualiza y que la oferta desaparece.
+	 */
+	@Test
+	public void PR19() {
+		
+		// Iniciamos sesión como el usuario pepe.
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		
+		// Pinchamos en la opción de gestión de usuarios del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'offers-menu')]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de usuarios.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/mylist')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que se muestre los botones de paginación.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Vamos a la primera página.
+		elementos.get(1).click();
+		
+		// Esperamos a que aparezca el Juguete y pinchamos en su enlace de borrado.
+		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Juguete')]/following-sibling::*/a[contains(@href, 'offer/delete')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que vuelva a cargar la página.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Vamos a la primera página.
+		elementos.get(1).click();
+		
+		// Comprobamos que la oferta ya no está en la lista.
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Juguete", PO_View.getTimeout());
+		
+		// Finalmente, nos desconectamos.
+		PO_PrivateView.logout(driver);
+	}
+	
+	/* 
+	 * Ir a la lista de ofertas, borrar la última oferta de la lista, comprobar
+	 * que la lista se actualiza y que la oferta desaparece.
+	 */
+	@Test
+	public void PR20() {
+		
+		// Iniciamos sesión como el usuario pepe.
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		
+		// Pinchamos en la opción de gestión de usuarios del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'offers-menu')]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de usuarios.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/mylist')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que se muestre los botones de paginación.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Comprobamos que estamos en la segunda página.
+		elementos.get(2).click();
+		
+		// Esperamos a que aparezca el Juguete y pinchamos en su enlace de borrado.
+		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Rotuladores')]/following-sibling::*/a[contains(@href, 'offer/delete')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que vuelva a cargar la página.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Comprobamos que estamos en la primera página.
+		elementos.get(2).click();
+		
+		// Comprobamos que la oferta ya no está en la lista.
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Rotuladores", PO_View.getTimeout());
 		
 		// Finalmente, nos desconectamos.
 		PO_PrivateView.logout(driver);
