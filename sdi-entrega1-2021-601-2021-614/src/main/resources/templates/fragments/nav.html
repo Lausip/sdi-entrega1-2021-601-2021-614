@@ -23,15 +23,17 @@
 					</ul>
 				</li>
 				
-					<li id="offers-menu" class="dropdown">
+				<li id="offers-menu" class="dropdown">
 					<a class="dorpdown-toggle" data-toggle="dropdown" href="#" th:text="#{offer.management}">
-						Gestión de Ofertas
+						Gestión de ofertas
 						<span class="caret"></span>
 				
 					</a>
 					<ul class="dropdown-menu" sec:authorize="hasRole('ROLE_STANDARD')">
-						<li><a href="/offer/add" th:text="#{offer.add.title}">Añadir Oferta</a></li>
-						<li><a href="/offer/mylist" th:text="#{offer.myOffer.title}">Mis Ofertas</a></li>
+						<li><a href="/offer/add" th:text="#{offer.add.title}">Añadir oferta</a></li>
+						<li><a href="/offer/mylist" th:text="#{offer.myOffer.title}">Mis ofertas</a></li>
+						<li><a href="/offer/list" th:text="#{offer.offers.title}">Ver ofertas</a></li>
+						<li><a href="/offer/purchased" th:text="#{offer.purchased.title}">Ver ofertas compradas</a></li>
 					</ul>
 				</li>
 				

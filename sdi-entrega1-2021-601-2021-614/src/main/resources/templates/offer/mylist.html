@@ -5,6 +5,8 @@
 	<nav th:replace="fragments/nav" />
 	<div class="container">
 	
+		<p th:replace="fragments/authenticated"></p>
+	
 		<h2 th:text="#{offer.myOffer.title}"></h2>
 		<p th:text="#{offer.myOffer.subtitle}"></p>
 		<div class="table-responsive">

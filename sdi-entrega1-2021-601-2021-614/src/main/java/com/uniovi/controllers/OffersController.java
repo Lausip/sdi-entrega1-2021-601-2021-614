@@ -41,6 +41,7 @@ public class OffersController {
 	@RequestMapping(value = "/offer/add")
 	public String getOffer(Model model) {
 		model.addAttribute("offer", new Offer());
+		model.addAttribute("userAuthenticated", usersService.getUserAuthenticated());
 		return "offer/add";
 	}
 	
@@ -65,6 +66,7 @@ public class OffersController {
 		offers = offersService.findAllByUser(pageable, user);
 		model.addAttribute("myOffers", offers.getContent());
 		model.addAttribute("page", offers);
+		model.addAttribute("userAuthenticated", usersService.getUserAuthenticated());
 		return "offer/mylist";
 	}
 	

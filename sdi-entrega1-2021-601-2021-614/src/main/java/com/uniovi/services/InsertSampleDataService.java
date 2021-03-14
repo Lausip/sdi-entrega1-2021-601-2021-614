@@ -109,7 +109,7 @@ public class InsertSampleDataService {
 		offersService.addOffer(offer);
 		offer = new Offer("Vestido", "Vestido azul", 20.0, user5);
 		offersService.addOffer(offer);
-		offer = new Offer("Tienda", "Tienda de campaña", 15.0, user5);
+		offer = new Offer("Tienda", "Tienda de campaña", 100.0, user5);
 		offersService.addOffer(offer);
 		offer = new Offer("Saco", "Saco de dormir", 11.0, user5);
 		offersService.addOffer(offer);
