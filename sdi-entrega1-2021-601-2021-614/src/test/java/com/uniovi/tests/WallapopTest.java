@@ -339,11 +339,11 @@ public class WallapopTest {
 		// Iniciamos sesión como el usuario pepe.
 		PO_PrivateView.login(driver, "pepe@email.com", "123456");
 		
-		// Pinchamos en la opción de gestión de usuarios del menú.
+		// Pinchamos en la opción de gestión de ofertas del menú.
 		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'offers-menu')]/a");
 		elementos.get(0).click();
 		
-		// Pinchamos en la opción de lista de usuarios.
+		// Pinchamos en la opción de lista de ofertas del usuario.
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/mylist')]");
 		elementos.get(0).click();
 		
@@ -380,11 +380,11 @@ public class WallapopTest {
 		// Iniciamos sesión como el usuario pepe.
 		PO_PrivateView.login(driver, "pepe@email.com", "123456");
 		
-		// Pinchamos en la opción de gestión de usuarios del menú.
+		// Pinchamos en la opción de gestión de ofertas del menú.
 		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'offers-menu')]/a");
 		elementos.get(0).click();
 		
-		// Pinchamos en la opción de lista de usuarios.
+		// Pinchamos en la opción de lista de ofertas del usuario.
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/mylist')]");
 		elementos.get(0).click();
 		
@@ -394,7 +394,7 @@ public class WallapopTest {
 		// Comprobamos que estamos en la segunda página.
 		elementos.get(2).click();
 		
-		// Esperamos a que aparezca el Juguete y pinchamos en su enlace de borrado.
+		// Esperamos a que aparezca el Rotuladores y pinchamos en su enlace de borrado.
 		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Rotuladores')]/following-sibling::*/a[contains(@href, 'offer/delete')]");
 		elementos.get(0).click();
 		
@@ -419,6 +419,45 @@ public class WallapopTest {
 	@Test
 	public void PR23() {
 		
+		// Iniciamos sesión como el usuario pepe.
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		
+		// Pinchamos en la opción de gestión de ofertas del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'offers-menu')]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/list')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que se muestre los botones de paginación.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Buscamos el texto "vest" en el buscador.
+		PO_PrivateView.searchOffer(driver, "vest");
+		
+		// Comprobamos que estamos en la primera página.
+		elementos.get(1).click();
+		
+		// Esperamos a que aparezca el Vestido y pinchamos en su enlace de Comprar.
+		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Vestido')]/following-sibling::*/a[contains(@href, 'offer/purchase')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que cargue la página de ofertas compradas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Comprobamos que estamos en la primera página.
+		elementos.get(1).click();
+		
+		// Comprobamos que la oferta ya no está en la lista.
+		SeleniumUtils.textoPresentePagina(driver, "Vestido");
+		SeleniumUtils.textoPresentePagina(driver, "Vestido azul");
+		SeleniumUtils.textoPresentePagina(driver, "alberto@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "80.0");
+		
+		// Finalmente, nos desconectamos.
+		PO_PrivateView.logout(driver);
+		
 	}
 	
 	/*
@@ -428,6 +467,45 @@ public class WallapopTest {
 	 */
 	@Test
 	public void PR24() {
+		
+		// Iniciamos sesión como el usuario pepe.
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		
+		// Pinchamos en la opción de gestión de ofertas del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'offers-menu')]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/list')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que se muestre los botones de paginación.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Buscamos el texto "tiend" en el buscador.
+		PO_PrivateView.searchOffer(driver, "tiend");
+		
+		// Comprobamos que estamos en la primera página.
+		elementos.get(1).click();
+		
+		// Esperamos a que aparezca la Tienda y pinchamos en su enlace de Comprar.
+		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Tienda')]/following-sibling::*/a[contains(@href, 'offer/purchase')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que cargue la página de ofertas compradas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Comprobamos que estamos en la primera página.
+		elementos.get(1).click();
+		
+		// Comprobamos que la oferta ya no está en la lista.
+		SeleniumUtils.textoPresentePagina(driver, "Tienda");
+		SeleniumUtils.textoPresentePagina(driver, "Tienda de campaña");
+		SeleniumUtils.textoPresentePagina(driver, "alberto@email.com");
+		SeleniumUtils.textoPresentePagina(driver, "0.0");
+		
+		// Finalmente, nos desconectamos.
+		PO_PrivateView.logout(driver);
 		
 	}
 	
@@ -439,6 +517,36 @@ public class WallapopTest {
 	@Test
 	public void PR25() {
 		
+		// Iniciamos sesión como el usuario pepe.
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		
+		// Pinchamos en la opción de gestión de ofertas del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'offers-menu')]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de ofertas.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/list')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que se muestre los botones de paginación.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Buscamos el texto "pat" en el buscador.
+		PO_PrivateView.searchOffer(driver, "pat");
+		
+		// Comprobamos que estamos en la primera página.
+		elementos.get(1).click();
+		
+		// Esperamos a que aparezca el Pato y pinchamos en su enlace de Comprar.
+		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Pato')]/following-sibling::*/a[contains(@href, 'offer/purchase')]");
+		elementos.get(0).click();
+		
+		// Comprobamos que sale un mensaje de error dieciendo que el usuario no tiene saldo suficiente.
+		SeleniumUtils.textoPresentePagina(driver, "La compra no se puede realizar, ya que no dispone del saldo necesario.");
+		
+		// Finalmente, nos desconectamos.
+		PO_PrivateView.logout(driver);
+		
 	}
 	
 	/*
@@ -447,6 +555,8 @@ public class WallapopTest {
 	 */
 	@Test
 	public void PR26() {
+		
+		
 		
 	}
 	

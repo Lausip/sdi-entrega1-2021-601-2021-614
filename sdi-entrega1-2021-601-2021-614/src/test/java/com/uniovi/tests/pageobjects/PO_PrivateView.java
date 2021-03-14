@@ -1,7 +1,5 @@
 package com.uniovi.tests.pageobjects;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -39,13 +37,22 @@ public class PO_PrivateView extends PO_NavView {
 		checkElement(driver, "text", dni);
 		SeleniumUtils.esperarSegundos(driver, 1);
 	}
+	
 	public static void logout(WebDriver driver) {
 		clickOption(driver, "logout", "text", "Identifícate");
 	}
 	
-
-
-
-
-
+	public static void searchOffer(WebDriver driver, String searchtext) {
+		
+		// Pinchamos en el buscador y escribimos el texto correspondiente.
+		WebElement searchOffer = driver.findElement(By.name("searchOffer"));
+		searchOffer.click();
+		searchOffer.clear();
+		searchOffer.sendKeys(searchtext);
+		
+		// Pinchamos el botón de buscar
+		WebElement searchOfferButton = driver.findElement(By.name("searchOfferButton"));
+		searchOfferButton.click();
+	}
+	
 }
