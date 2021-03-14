@@ -29,5 +29,9 @@ public class OffersService {
 	public Offer getOfferById(Long id) {
 		return offersRepository.findById(id).get();
 	}
+	
+	public Page<Offer> findAllPurchasedByUser(Pageable pageable, User user) {
+		return offersRepository.findAllPurchasedByUser(pageable, user);
+	}
 
 }

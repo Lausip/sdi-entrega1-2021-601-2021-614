@@ -23,6 +23,8 @@ public class InsertSampleDataService {
 	@PostConstruct
 	public void init() {
 		
+		// Añadir usuarios
+		
 		User user1 = new User("admin@email.com", "Admin", "Admin");
 		user1.setPassword("admin");
 		user1.setRole(rolesService.getRoles()[1]);
@@ -68,25 +70,8 @@ public class InsertSampleDataService {
 		user9.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user9);
 		
-		/*
-		Offer offer1 = new Offer("Juguete", "Juguete infantil", 10.0, user3);
-		Offer offer2 = new Offer("Caja", "Caja de cartón azul", 5.0, user3);
-		Offer offer3 = new Offer("Papel", "Papel de regalo", 1.0, user3);
-		Offer offer4 = new Offer("Folios", "Paquete de 500 folios", 4.0, user3);
-		Offer offer5 = new Offer("Bolígrafo", "Bolígrafo de tinta líquida", 2.0, user3);
-		Offer offer6 = new Offer("Bicicleta", "Bicicleta infantil", 70.0, user3);
-		Offer offer7 = new Offer("Patinete", "Patinete eléctrico", 280.0, user3);
-		Offer offer8 = new Offer("Rotuladores", "Rotuladores de colores", 12.0, user3);
 		
-		offersService.addOffer(offer1);
-		offersService.addOffer(offer2);
-		offersService.addOffer(offer3);
-		offersService.addOffer(offer4);
-		offersService.addOffer(offer5);
-		offersService.addOffer(offer6);
-		offersService.addOffer(offer7);
-		offersService.addOffer(offer8);
-		*/
+		// Añadir ofertas
 		
 		Offer offer = new Offer("Juguete", "Juguete infantil", 10.0, user3);
 		offersService.addOffer(offer);
@@ -107,10 +92,16 @@ public class InsertSampleDataService {
 		
 		offer = new Offer("Pato", "Pato de goma", 3.0, user5);
 		offersService.addOffer(offer);
+		System.out.println("Pato: " + offer.getId());
+		
 		offer = new Offer("Vestido", "Vestido azul", 20.0, user5);
 		offersService.addOffer(offer);
-		offer = new Offer("Tienda", "Tienda de campaña", 100.0, user5);
+		System.out.println("Vestido: " + offer.getId());
+		
+		offer = new Offer("Tienda", "Tienda de campaña", 80.0, user5);
 		offersService.addOffer(offer);
+		System.out.println("Tienda: " + offer.getId());
+		
 		offer = new Offer("Saco", "Saco de dormir", 11.0, user5);
 		offersService.addOffer(offer);
 		

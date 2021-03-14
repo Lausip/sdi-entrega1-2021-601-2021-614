@@ -1,6 +1,5 @@
 package com.uniovi.controllers;
 
-import java.security.Principal;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -46,7 +45,7 @@ public class OffersController {
 	}
 	
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
-	public String setOffer(Model model, Pageable pageable, @Validated Offer offer, BindingResult result, Principal principal) {
+	public String setOffer(Model model, Pageable pageable, @Validated Offer offer, BindingResult result) {
 		addOfferFormValidator.validate(offer, result);
 		if (result.hasErrors()) {
 			return "/offer/add";
@@ -60,7 +59,7 @@ public class OffersController {
 	}
 	
 	@RequestMapping(value = "/offer/mylist")
-	public String getOffersForUser(Model model, Pageable pageable, Principal principal) {
+	public String getOffersForUser(Model model, Pageable pageable) {
 		User user = usersService.getUserAuthenticated();
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 		offers = offersService.findAllByUser(pageable, user);
@@ -84,6 +83,10 @@ public class OffersController {
 	public String purchaseOffer(@PathVariable Long id) {
 		Offer offer = offersService.getOfferById(id);
 		User user = usersService.getUserAuthenticated();
+		if (offer.getUser().getId() == user.getId()) {
+			//Error.offer.pruchase.user
+			return "redirect:/offer/list";
+		}
 		Double price = offer.getPrice();
 		if (user.getMoney() < price) {
 			//Error.offer.pruchase.money
@@ -94,6 +97,16 @@ public class OffersController {
 		offer.setPurchased(true);
 		offersService.addOffer(offer);
 		return "redirect:/offer/purchasedlist";
+	}
+	
+	@RequestMapping("/offer/purchasedlist")
+	public String getPurchasedOffersForUser(Model model, Pageable pageable) {
+		User purchaser = usersService.getUserAuthenticated();
+		Page<Offer> purchasedOffers = offersService.findAllPurchasedByUser(pageable, purchaser);
+		model.addAttribute("purchasedOffers", purchasedOffers.getContent());
+		model.addAttribute("page", purchasedOffers);
+		model.addAttribute("userAuthenticated", purchaser);
+		return "offer/purchasedlist";
 	}
 	
 }
