@@ -347,7 +347,7 @@ public class WallapopTest {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/mylist')]");
 		elementos.get(0).click();
 		
-		// Esperamos a que se muestre los botones de paginación.
+		// Esperamos a que se muestren los botones de paginación.
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		
 		// Vamos a la primera página.
@@ -388,7 +388,7 @@ public class WallapopTest {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/mylist')]");
 		elementos.get(0).click();
 		
-		// Esperamos a que se muestre los botones de paginación.
+		// Esperamos a que se muestren los botones de paginación.
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		
 		// Comprobamos que estamos en la segunda página.
@@ -430,7 +430,7 @@ public class WallapopTest {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/list')]");
 		elementos.get(0).click();
 		
-		// Esperamos a que se muestre los botones de paginación.
+		// Esperamos a que se muestren los botones de paginación.
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		
 		// Buscamos el texto "vest" en el buscador.
@@ -449,7 +449,7 @@ public class WallapopTest {
 		// Comprobamos que estamos en la primera página.
 		elementos.get(1).click();
 		
-		// Comprobamos que la oferta ya no está en la lista.
+		// Comprobamos que la oferta ahora está en la lista de ofertas compradas.
 		SeleniumUtils.textoPresentePagina(driver, "Vestido");
 		SeleniumUtils.textoPresentePagina(driver, "Vestido azul");
 		SeleniumUtils.textoPresentePagina(driver, "alberto@email.com");
@@ -479,7 +479,7 @@ public class WallapopTest {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/list')]");
 		elementos.get(0).click();
 		
-		// Esperamos a que se muestre los botones de paginación.
+		// Esperamos a que se muestren los botones de paginación.
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		
 		// Buscamos el texto "tiend" en el buscador.
@@ -498,7 +498,7 @@ public class WallapopTest {
 		// Comprobamos que estamos en la primera página.
 		elementos.get(1).click();
 		
-		// Comprobamos que la oferta ya no está en la lista.
+		// Comprobamos que la oferta ahora está en la lista de ofertas compradas.
 		SeleniumUtils.textoPresentePagina(driver, "Tienda");
 		SeleniumUtils.textoPresentePagina(driver, "Tienda de campaña");
 		SeleniumUtils.textoPresentePagina(driver, "alberto@email.com");
@@ -528,7 +528,7 @@ public class WallapopTest {
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/list')]");
 		elementos.get(0).click();
 		
-		// Esperamos a que se muestre los botones de paginación.
+		// Esperamos a que se muestren los botones de paginación.
 		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		
 		// Buscamos el texto "pat" en el buscador.
@@ -556,7 +556,32 @@ public class WallapopTest {
 	@Test
 	public void PR26() {
 		
+		// Iniciamos sesión como el usuario pepe.
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
 		
+		// Pinchamos en la opción de gestión de ofertas del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, 'offers-menu')]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de ofertas compradas por el usuario.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href, 'offer/purchasedlist')]");
+		elementos.get(0).click();
+		
+		// Esperamos a que se muestre los botones de paginación.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
+		
+		// Comprobamos que estamos en la primera página.
+		elementos.get(1).click();
+		
+		// Comprobamos que las ofertas compradas están en la lista.
+		SeleniumUtils.textoPresentePagina(driver, "Vestido");
+		SeleniumUtils.textoPresentePagina(driver, "Vestido azul");
+		SeleniumUtils.textoPresentePagina(driver, "Tienda");
+		SeleniumUtils.textoPresentePagina(driver, "Tienda de campaña");
+		SeleniumUtils.textoPresentePagina(driver, "alberto@email.com");
+		
+		// Finalmente, nos desconectamos.
+		PO_PrivateView.logout(driver);
 		
 	}
 	
