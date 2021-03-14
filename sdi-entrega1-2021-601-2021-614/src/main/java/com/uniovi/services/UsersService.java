@@ -49,4 +49,5 @@ public class UsersService {
 		String email = auth.getName();
 		return getUserByEmail(email);
 	}
+	
 }

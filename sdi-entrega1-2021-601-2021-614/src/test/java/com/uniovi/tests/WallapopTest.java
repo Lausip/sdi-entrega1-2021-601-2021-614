@@ -410,5 +410,44 @@ public class WallapopTest {
 		// Finalmente, nos desconectamos.
 		PO_PrivateView.logout(driver);
 	}
-
+	
+	/*
+	 * Sobre una búsqueda determinada (a elección del desarrollador), comprar una
+	 * oferta que deja un saldo positivo en el contador del comprador. Comprobar
+	 * que el contador se actualiza correctamente en la vista del comprador.
+	 */
+	@Test
+	public void PR23() {
+		
+	}
+	
+	/*
+	 * Sobre una búsqueda determinada (a elección del desarrollador), comprar una
+	 * oferta que deja un saldo 0 en el contador del comprador. Comprobar que el
+	 * contador se actualiza correctamente en la vista del comprador.
+	 */
+	@Test
+	public void PR24() {
+		
+	}
+	
+	/*
+	 * Sobre una búsqueda determinada (a elección del desarrollador), intentar
+	 * comprar una oferta que esté por encima de saldo disponible del comprador.
+	 * Y comprobar que se muestra el mensaje de saldo no suficiente.
+	 */
+	@Test
+	public void PR25() {
+		
+	}
+	
+	/*
+	 * Ir a la opción de ofertas compradas del usuario y mostrar la lista.
+	 * Comprobar que aparecen las ofertas que deben aparecer.
+	 */
+	@Test
+	public void PR26() {
+		
+	}
+	
 }

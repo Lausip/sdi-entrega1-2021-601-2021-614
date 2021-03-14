@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Offer {
+	
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -19,8 +20,14 @@ public class Offer {
 	private Double price;
 	
 	@ManyToOne()
-	@JoinColumn(name = "email")
+	@JoinColumn(name = "user_id")
 	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "purchaser_id")
+	private User purchaser;
+	
+	private boolean purchased;
 	
 	public Offer(Long id, String titulo, Date date, String description, Double price,User user) {
 		super();
@@ -32,12 +39,14 @@ public class Offer {
 		this.user=user;
 	}
 	
-	public Offer(String titulo, String description, Double price) {
+	public Offer(String titulo, String description, Double price, User user) {
 		super();
 		this.description = description;
 		this.price = price;
 		this.date = new Date(new java.util.Date().getTime());
 		this.titulo = titulo;
+		this.user = user;
+		this.purchased = false;
 	}
 	
 	public Offer() {
@@ -92,4 +101,20 @@ public class Offer {
 		this.user = user;
 	}
 
+	public User getPurchaser() {
+		return purchaser;
+	}
+
+	public void setPurchaser(User purchaser) {
+		this.purchaser = purchaser;
+	}
+
+	public boolean isPurchased() {
+		return purchased;
+	}
+
+	public void setPurchased(boolean purchased) {
+		this.purchased = purchased;
+	}
+	
 }

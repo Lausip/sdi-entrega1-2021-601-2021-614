@@ -37,6 +37,10 @@ public class User {
 	@OneToMany(mappedBy = "user",  cascade=CascadeType.ALL)
 	private Set<Offer> offers = new HashSet<Offer>();
 	
+	@OneToMany(mappedBy = "purchaser", cascade=CascadeType.ALL)
+	private Set<Offer> purchasedOffers = new HashSet<Offer>();
+	
+	
 	public User() {
 		
 	}
@@ -123,6 +127,18 @@ public class User {
 
 	public void setOffers(Set<Offer> offers) {
 		this.offers = offers;
+	}
+
+	public Set<Offer> getPurchasedOffers() {
+		return purchasedOffers;
+	}
+
+	public void setPurchasedOffers(Set<Offer> purchasedOffers) {
+		this.purchasedOffers = purchasedOffers;
+	}
+	
+	public void decreaseMoney(Double price) {
+		this.money -= price;
 	}
 
 }

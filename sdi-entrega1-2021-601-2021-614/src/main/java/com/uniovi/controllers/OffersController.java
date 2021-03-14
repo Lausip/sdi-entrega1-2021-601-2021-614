@@ -1,6 +1,7 @@
 package com.uniovi.controllers;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.LinkedList;
 
 import org.apache.logging.log4j.LogManager;
@@ -44,15 +45,17 @@ public class OffersController {
 	}
 	
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
-	public String setOffer(Model model, @Validated Offer offer, BindingResult result, Principal principal) {
+	public String setOffer(Model model, Pageable pageable, @Validated Offer offer, BindingResult result, Principal principal) {
 		addOfferFormValidator.validate(offer, result);
 		if (result.hasErrors()) {
 			return "/offer/add";
 		}
-		User user = usersService.getUserAuthenticated();
-		offersService.addOffer(offer, user);
+		offer.setUser(usersService.getUserAuthenticated());
+		offer.setDate(new Date(new java.util.Date().getTime()));
+		offersService.addOffer(offer);
 		logger.info(String.format("Add item %s", offer.getTitulo()));
-		return "redirect:/home";
+		model.addAttribute("myOffers", offersService.findAllByUser(pageable, usersService.getUserAuthenticated()));
+		return "redirect:/offer/mylist";
 	}
 	
 	@RequestMapping(value = "/offer/mylist")
@@ -73,6 +76,22 @@ public class OffersController {
 			offersService.deleteOffer(id);
 		}
 		return "redirect:/offer/mylist";
+	}
+	
+	@RequestMapping("/offer/purchase/{id}")
+	public String purchaseOffer(@PathVariable Long id) {
+		Offer offer = offersService.getOfferById(id);
+		User user = usersService.getUserAuthenticated();
+		Double price = offer.getPrice();
+		if (user.getMoney() < price) {
+			//Error.offer.pruchase.money
+			return "redirect:/offer/list";
+		}
+		user.decreaseMoney(offer.getPrice());
+		offer.setPurchaser(user);
+		offer.setPurchased(true);
+		offersService.addOffer(offer);
+		return "redirect:/offer/purchasedlist";
 	}
 	
 }
