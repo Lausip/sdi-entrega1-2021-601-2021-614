@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/head" />
+<body>
+	<nav th:replace="fragments/nav" />
+	<div class="container">
+	
+		<p th:replace="fragments/authenticated"></p>
+	
+		<h2 th:text="#{offer.title}"></h2>
+		<p th:text="#{offer.subtitle}"></p>
+		<div class="table-responsive">
+			<table class="table table-hover" th:fragment="tableOffers"
+				id="tableOffers">
+				<thead>
+					<tr>
+						<th class="col-md-2" th:text="#{offer.title2}"></th>
+						<th th:text="#{offer.list.description}"></th>
+						<th th:text="#{offer.list.price}"></th>
+						<th th:text="#{offer.list.seller}"></th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="offer : ${offers}">
+						<td th:text="${offer.titulo}"></td>
+						<td th:text="${offer.description}"></td>
+						<td th:text="${offer.price}"></td>
+						<td th:text="${offer.user.name +' '+offer.user.lastName}"></td>
+						<td th:if="${dinero >= offer.price}"><a
+							th:if="!${offer.purchased}"><span
+								th:text="#{offer.list.buy}"></span></a></td>
+						<th><a th:if="${offer.purchased}"><span
+								th:text="#{offer.list.sold}"></span></a></th>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<footer th:replace="fragments/pagination" />
+	</div>
+	<footer th:replace="fragments/footer" />
+</body>
+</html>

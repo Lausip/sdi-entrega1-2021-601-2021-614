@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -110,6 +111,18 @@ public class OffersController {
 		model.addAttribute("page", purchasedOffers);
 		model.addAttribute("userAuthenticated", purchaser);
 		return "offer/purchasedlist";
+	}
+	
+	@RequestMapping(value = "/offer/list")
+	public String getOffers(Model model, @PageableDefault(size = 5) Pageable pageable) {
+		User user = usersService.getUserAuthenticated();
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
+		offers = offersService.findAllExceptUser(pageable,user);
+		model.addAttribute("userAuthenticated", user);
+		model.addAttribute("offers", offers.getContent());
+		model.addAttribute("dinero", user.getMoney());
+		model.addAttribute("page", offers);
+		return "offer/list";
 	}
 	
 }
