@@ -21,6 +21,7 @@ import com.uniovi.entities.User;
 import com.uniovi.services.OffersService;
 import com.uniovi.services.UsersService;
 import com.uniovi.validators.AddOfferFormValidator;
+import com.uniovi.validators.PurchaseOfferValidator;
 
 @Controller
 public class OffersController {
@@ -32,6 +33,9 @@ public class OffersController {
 	
 	@Autowired
 	private AddOfferFormValidator addOfferFormValidator;
+	
+	@Autowired
+	private PurchaseOfferValidator purchaseOfferValidator;
 	
 	@Autowired
 	private UsersService usersService;
@@ -80,18 +84,17 @@ public class OffersController {
 	}
 	
 	@RequestMapping("/offer/purchase/{id}")
-	public String purchaseOffer(@PathVariable Long id) {
+	public String purchaseOffer(@PathVariable Long id, BindingResult result) {
 		Offer offer = offersService.getOfferById(id);
 		User user = usersService.getUserAuthenticated();
-		if (offer.getUser().getId() == user.getId()) {
-			//Error.offer.pruchase.user
+		offer.setPurchaser(user);
+		
+		purchaseOfferValidator.validate(offer, result);
+		if (result.hasErrors()) {
+			offer.setPurchaser(null);
 			return "redirect:/offer/list";
 		}
-		Double price = offer.getPrice();
-		if (user.getMoney() < price) {
-			//Error.offer.pruchase.money
-			return "redirect:/offer/list";
-		}
+		
 		user.decreaseMoney(offer.getPrice());
 		offer.setPurchaser(user);
 		offer.setPurchased(true);

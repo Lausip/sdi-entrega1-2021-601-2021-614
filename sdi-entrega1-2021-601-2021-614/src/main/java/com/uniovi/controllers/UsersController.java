@@ -71,7 +71,8 @@ public class UsersController {
 	public String deleteUsers(Model model, @RequestParam List<Long> userIds) {
 		for (Long id : userIds) {
 			User user = usersService.getUserById(id);
-			if (!user.getEmail().equals("admin@email.com")) {
+			// Si el usuario tiene ROLE_STANDARD borrar.
+			if (user.getRole().equals(rolesService.getRoles()[0])) {
 				usersService.deleteUser(id);
 			}
 		}
