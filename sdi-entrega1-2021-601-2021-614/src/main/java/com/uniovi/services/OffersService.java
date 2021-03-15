@@ -34,4 +34,9 @@ public class OffersService {
 		return offersRepository.findAllPurchasedByUser(pageable, user);
 	}
 
+
+	public Page<Offer> findAllExceptUser(Pageable pageable, User user) {
+		return offersRepository.findAllExceptUser(pageable,user);
+	}
+
 }
