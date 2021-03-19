@@ -4,8 +4,8 @@
 		<span th:inline="text" th:text="${userAuthenticated.email}"></span>
 	</p>
 	<p>
-		<span th:inline="text" th:text="#{private.zone.money}"></span>
-		<span th:inline="text" th:text="${userAuthenticated.money}"></span>
-		<span th:inline="text" th:text="#{private.zone.currency}"></span>
+		<span th:inline="text" th:text="#{private.zone.money}"  sec:authorize="hasRole('ROLE_STANDARD')"></span>
+		<span th:inline="text" th:text="${userAuthenticated.money}"  sec:authorize="hasRole('ROLE_STANDARD')"></span>
+		<span th:inline="text" th:text="#{private.zone.currency}"  sec:authorize="hasRole('ROLE_STANDARD')"></span>
 	</p>
 </div> 

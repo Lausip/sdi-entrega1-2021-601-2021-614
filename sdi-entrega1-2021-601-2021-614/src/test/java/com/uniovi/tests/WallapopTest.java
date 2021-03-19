@@ -138,21 +138,24 @@ public class WallapopTest {
 	@Test
 	public void PR05() {
 		PO_PrivateView.login(driver, "admin@email.com", "admin");
+		SeleniumUtils.textoPresentePagina(driver, "Usuario autenticado como");
 	}
 
 	// Inicio de sesión con datos válidos (usuario estándar).
 	@Test
 	public void PR06() {
-		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
+		SeleniumUtils.textoPresentePagina(driver, "Su saldo es de");
+		
 	}
 
 	// Inicio de sesión con datos inválidos (usuario estándar, campo email y
 	// contraseña vacíos)
 	@Test
 	public void PR07() {
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		PO_LoginView.fillForm(driver, "", "123456");
-		SeleniumUtils.textoPresentePagina(driver, "Rellene este campo.");
+//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+//		PO_LoginView.fillForm(driver, "", "123456");
+//		SeleniumUtils.textoPresentePagina(driver, "Rellene este campo.");
 //		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
 //		PO_LoginView.fillForm(driver, "Jose@gmail.com", " ");
 //		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
@@ -184,6 +187,7 @@ public class WallapopTest {
 	public void PR10() {
 		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
 		PO_PrivateView.logout(driver);
+		SeleniumUtils.textoPresentePagina(driver, "Identifícate");
 	}
 	// Comprobar que el botón cerrar sesión no está visible si el usuario no está
 	// autenticado.
