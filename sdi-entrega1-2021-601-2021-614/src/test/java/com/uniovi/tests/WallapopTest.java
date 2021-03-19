@@ -362,6 +362,16 @@ public class WallapopTest {
 		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", " ");
 		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 	}
+	//	Mostrar el listado de ofertas para dicho usuario y comprobar que se muestran todas los que
+	// existen para este usuario.
+	@Test
+	public void PR18() {
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "3@a.com", "123456");
+		PO_HomeView.checkElement(driver, "text", "Cenizas de mi abuelo");
+		PO_HomeView.checkElement(driver, "text", "Cocacola");
+		PO_HomeView.checkElement(driver, "text", "Chancla");
+	}
 	
 	/* 
 	 * Ir a la lista de ofertas, borrar la primera oferta de la lista, comprobar
