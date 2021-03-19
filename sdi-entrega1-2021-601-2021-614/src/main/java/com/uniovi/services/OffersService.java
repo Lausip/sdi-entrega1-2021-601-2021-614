@@ -39,4 +39,8 @@ public class OffersService {
 		return offersRepository.findAllExceptUser(pageable,user);
 	}
 
+	public Page<Offer> searchOffersByTitle(Pageable pageable, String searchText, User user) {
+			return offersRepository.earchOffersByTitle(pageable,user,searchText);
+	}
+
 }

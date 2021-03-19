@@ -17,6 +17,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.services.OffersService;
@@ -114,10 +116,15 @@ public class OffersController {
 	}
 	
 	@RequestMapping(value = "/offer/list")
-	public String getOffers(Model model, @PageableDefault(size = 5) Pageable pageable) {
+	public String getOffers(Model model, @PageableDefault(size = 5) Pageable pageable, @RequestParam(value = "", required = false) String searchText) {
 		User user = usersService.getUserAuthenticated();
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
-		offers = offersService.findAllExceptUser(pageable,user);
+		if (searchText != null && !searchText.isEmpty()) {
+			searchText = "%"+searchText+"%";
+			offers =offersService.searchOffersByTitle(pageable, searchText, user);
+		} else {
+			offers = offersService.findAllExceptUser(pageable,user);
+		}
 		model.addAttribute("userAuthenticated", user);
 		model.addAttribute("offers", offers.getContent());
 		model.addAttribute("dinero", user.getMoney());

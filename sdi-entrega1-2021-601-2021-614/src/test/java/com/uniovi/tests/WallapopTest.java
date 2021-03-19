@@ -26,12 +26,12 @@ import com.uniovi.tests.util.SeleniumUtils;
 public class WallapopTest {
 
 	// Parámetros de Laura
-//	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-//	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 	
 	// Parámetros de Rut
-	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\rualg\\OneDrive\\Escritorio\\SDI\\Práctica5\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	//static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+	//static String Geckdriver024 = "C:\\Users\\rualg\\OneDrive\\Escritorio\\SDI\\Práctica5\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 	
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
@@ -151,12 +151,13 @@ public class WallapopTest {
 	@Test
 	public void PR07() {
 		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		PO_LoginView.fillForm(driver, " ", "123456");
-		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
-		PO_LoginView.fillForm(driver, "Jose@gmail.com", " ");
-		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
-		PO_LoginView.fillForm(driver, " ", " ");
-		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
+		PO_LoginView.fillForm(driver, "", "123456");
+		SeleniumUtils.textoPresentePagina(driver, "Rellene este campo.");
+//		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
+//		PO_LoginView.fillForm(driver, "Jose@gmail.com", " ");
+//		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
+//		PO_LoginView.fillForm(driver, " ", " ");
+//		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
 	}
 
 	// Inicio de sesión con datos válidos (usuario estándar, email existente, pero
