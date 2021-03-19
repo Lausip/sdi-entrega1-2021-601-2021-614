@@ -664,4 +664,28 @@ public class WallapopTest {
 		
 	}
 	
+	//	Intentar acceder sin estar autenticado a la opción de listado de usuarios del administrador. Se
+	//	deberá volver al formulario de login
+	@Test
+	public void PR28() {
+		driver.get(URL + "/user/list");
+		PO_View.checkElement(driver, "text", "Identifícate");
+	}
+	
+	//	Intentar acceder sin estar autenticado a la opción de listado de ofertas propias de un usuario
+	//	estándar. Se deberá volver al formulario de login.
+	@Test
+	public void PR29() {
+		driver.get(URL + "/offer/mylist");
+		PO_View.checkElement(driver, "text", "Identifícate");
+	}
+	
+	//	Estando autenticado como usuario estándar intentar acceder a la opción de listado de
+	//	usuarios del administrador. Se deberá indicar un mensaje de acción prohibida.
+	@Test
+	public void PR30() {
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		driver.get(URL + "/user/list");
+		SeleniumUtils.textoPresentePagina(driver, "HTTP Status 403 – Forbidden");
+	}
 }
