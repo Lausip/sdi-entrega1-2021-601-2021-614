@@ -8,7 +8,7 @@
 		<p th:replace="fragments/authenticated"></p>
 		
 	
-		<h2 th:text="#{offer.title}"></h2>
+		<h2 th:text="#{offer.title3}"></h2>
 		<form class="navbar-form" action="/offer/list">
 		<h3 th:text="#{offers.list.search}"></h3>
 			<div class="form-group">
@@ -41,8 +41,8 @@
 						<td th:if="${dinero >= offer.price}"><a
 							th:if="!${offer.purchased}"><span
 								th:text="#{offer.list.buy}"></span></a></td>
-						<th><a th:if="${offer.purchased}"><span
-								th:text="#{offer.list.sold}"></span></a></th>
+						<td><a th:if="${offer.purchased}"><span
+								th:text="#{offer.list.sold}"></span></a></td>
 					</tr>
 				</tbody>
 			</table>

@@ -343,7 +343,7 @@ public class WallapopTest {
 	//Comprobar que la oferta sale en el listado de ofertas de dicho usuario.
 	@Test
 	public void PR16() {
-		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
 		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0");
 		PO_HomeView.checkElement(driver, "text", "Hola");
@@ -353,7 +353,7 @@ public class WallapopTest {
 	//el botón Submit. Comprobar que se muestra el mensaje de campo obligatorio
 	@Test
 	public void PR17() {
-		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
 		PO_AddOfferView.fillForm(driver, "", "Hola esto es una prueba", "15.0");
 		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
@@ -370,7 +370,7 @@ public class WallapopTest {
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
 		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
 				PO_View.getTimeout());
-		assertTrue(elementos2.size() ==4);
+		assertTrue(elementos2.size() ==5);
 	
 	}
 	
@@ -454,6 +454,40 @@ public class WallapopTest {
 		
 		// Finalmente, nos desconectamos.
 		PO_PrivateView.logout(driver);
+	}
+	
+	//	Hacer una búsqueda con el campo vacío y comprobar que se muestra la página que
+	//	corresponde con el listado de las ofertas existentes en el sistema
+	@Test
+	public void PR21() {
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/list");
+		WebElement buscar = driver.findElement(By.name("searchText"));
+		buscar.click();
+		buscar.clear();
+		buscar.sendKeys("");
+		buscar.click();
+		List<WebElement> elementos;
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 5);
+		driver.findElements(By.xpath("//a[contains(@class, 'page-link')]")).get(2).click();
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 1);
+
+	}
+	//Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se 
+	//muestra la página que corresponde, con la lista de ofertas vacía.
+	@Test
+	public void PR22() {
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/list");
+		WebElement buscar = driver.findElement(By.name("searchText"));
+		buscar.click();
+		buscar.clear();
+		buscar.sendKeys("hello");
+		driver.findElement(By.className("btn")).click();
+		assertTrue(driver.findElements(By.xpath("//table[@id='tableOffers']/tbody/tr")).size() == 0);
+
 	}
 	
 	/*
