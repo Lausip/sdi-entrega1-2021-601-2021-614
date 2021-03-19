@@ -207,7 +207,10 @@ public class WallapopTest {
 		elementos.get(0).click();
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "@href", "/user/list", PO_View.getTimeout());
 		elementos.get(0).click();
-		assertTrue(driver.findElements(By.xpath("//table/tbody/tr")).size() == 2);
+		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
+				PO_View.getTimeout());
+		assertTrue(elementos2.size() ==10);
+
 	}
 	
 	/* Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar
