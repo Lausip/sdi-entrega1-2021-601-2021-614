@@ -14,8 +14,10 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import com.uniovi.tests.pageobjects.PO_AddOfferView;
 import com.uniovi.tests.pageobjects.PO_HomeView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
 import com.uniovi.tests.pageobjects.PO_RegisterView;
@@ -335,6 +337,30 @@ public class WallapopTest {
 		
 		// Finalmente, nos desconectamos.
 		PO_PrivateView.logout(driver);
+	}
+	
+	//Ir al formulario de alta de oferta, rellenarla con datos válidos y pulsar el botón Submit. 
+	//Comprobar que la oferta sale en el listado de ofertas de dicho usuario.
+	@Test
+	public void PR16() {
+		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
+		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0");
+		PO_HomeView.checkElement(driver, "text", "Hola");
+	}
+	
+	//Ir al formulario de alta de oferta, rellenarla con datos inválidos (campo título vacío) y pulsar 
+	//el botón Submit. Comprobar que se muestra el mensaje de campo obligatorio
+	@Test
+	public void PR17() {
+		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
+		PO_AddOfferView.fillForm(driver, "", "Hola esto es una prueba", "15.0");
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		PO_AddOfferView.fillForm(driver, "Hola", " ", "46.0");
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
+		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", " ");
+		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 	}
 	
 	/* 

@@ -55,11 +55,11 @@ public class OffersController {
 	public String setOffer(Model model, Pageable pageable, @Validated Offer offer, BindingResult result) {
 		addOfferFormValidator.validate(offer, result);
 		if (result.hasErrors()) {
-			return "/offer/add";
+			model.addAttribute("userAuthenticated", usersService.getUserAuthenticated());
+			return "offer/add";
 		}
-		offer.setUser(usersService.getUserAuthenticated());
-		offer.setDate(new Date(new java.util.Date().getTime()));
-		offersService.addOffer(offer);
+		User user=usersService.getUserAuthenticated();
+		offersService.addOfferUser(offer,user);
 		logger.info(String.format("Add item %s", offer.getTitulo()));
 		model.addAttribute("myOffers", offersService.findAllByUser(pageable, usersService.getUserAuthenticated()));
 		return "redirect:/offer/mylist";

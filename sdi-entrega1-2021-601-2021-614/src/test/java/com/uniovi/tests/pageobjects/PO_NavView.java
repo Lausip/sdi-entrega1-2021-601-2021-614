@@ -50,4 +50,21 @@ public class PO_NavView extends PO_View {
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "id", textLanguage, getTimeout());
 		elementos.get(0).click();
 	}
+	
+	/**
+	 * Simula el click en una opcion de menu
+	 * @param driver
+	 * @param menuButtonId es el id del boton que despliega el menu dropdown
+	 * @param menuId es el id del menu dropdown
+	 * @param optionId es el enlace la opcion del menu dropdown sobre la que quieres hacer click
+	 */
+	public static void clickDropdownMenuOption(WebDriver driver, String menuButtonId, String menuId, String optionId) {
+		// Pinchamos en la opción de gestión de usuarios del menú.
+		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//li[contains(@id, "+"'"+menuId+"'"+")]/a");
+		elementos.get(0).click();
+		
+		// Pinchamos en la opción de lista de usuarios.
+		elementos = PO_View.checkElement(driver, "free", "//a[contains(@href,"+"'"+optionId+"'"+")]");
+		elementos.get(0).click();
+	}
 }

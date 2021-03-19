@@ -1,5 +1,7 @@
 package com.uniovi.services;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ public class OffersService {
 	private OffersRepository offersRepository;
 	
 	public void addOffer(Offer offer) {
+		offer.setDate(new Date(new java.util.Date().getTime()));
 		offersRepository.save(offer);
 	}
 
@@ -41,6 +44,13 @@ public class OffersService {
 
 	public Page<Offer> searchOffersByTitle(Pageable pageable, String searchText, User user) {
 			return offersRepository.earchOffersByTitle(pageable,user,searchText);
+	}
+
+	public void addOfferUser(Offer offer, User user) {
+		offer.setUser(user);
+		offer.setDate(new Date(new java.util.Date().getTime()));
+		offersRepository.save(offer);
+		
 	}
 
 }
