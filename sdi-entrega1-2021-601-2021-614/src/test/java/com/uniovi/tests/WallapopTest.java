@@ -366,11 +366,12 @@ public class WallapopTest {
 	// existen para este usuario.
 	@Test
 	public void PR18() {
-		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-		PO_LoginView.fillForm(driver, "3@a.com", "123456");
-		PO_HomeView.checkElement(driver, "text", "Cenizas de mi abuelo");
-		PO_HomeView.checkElement(driver, "text", "Cocacola");
-		PO_HomeView.checkElement(driver, "text", "Chancla");
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
+		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
+				PO_View.getTimeout());
+		assertTrue(elementos2.size() ==4);
+	
 	}
 	
 	/* 
