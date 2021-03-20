@@ -1,5 +1,6 @@
 package com.uniovi.tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -345,7 +346,7 @@ public class WallapopTest {
 	public void PR16() {
 		PO_PrivateView.login(driver, "alberto@email.com", "123456");
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
-		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0");
+		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0",false);
 		PO_HomeView.checkElement(driver, "text", "Hola");
 	}
 	
@@ -355,11 +356,11 @@ public class WallapopTest {
 	public void PR17() {
 		PO_PrivateView.login(driver, "alberto@email.com", "123456");
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
-		PO_AddOfferView.fillForm(driver, "", "Hola esto es una prueba", "15.0");
+		PO_AddOfferView.fillForm(driver, "", "Hola esto es una prueba", "15.0",false);
 		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
-		PO_AddOfferView.fillForm(driver, "Hola", " ", "46.0");
+		PO_AddOfferView.fillForm(driver, "Hola", " ", "46.0",false);
 		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
-		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", " ");
+		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", " ",false);
 		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 	}
 	//	Mostrar el listado de ofertas para dicho usuario y comprobar que se muestran todas los que
@@ -688,4 +689,55 @@ public class WallapopTest {
 		driver.get(URL + "/user/list");
 		SeleniumUtils.textoPresentePagina(driver, "HTTP Status 403 – Forbidden");
 	}
+	
+	//Al crear una oferta marcar dicha oferta como destacada y a continuación comprobar: i) que
+	//aparece en el listado de ofertas destacadas para los usuarios y que el saldo del usuario se actualiza
+	//adecuadamente en la vista del ofertante (-20).
+	@Test
+	public void PR36() {
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		String money = driver.findElement(By.id("money")).getText();
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
+		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0",true);
+		String newMoney =  driver.findElement(By.id("money")).getText();
+		assertEquals(Double.parseDouble(money) - 20, Double.parseDouble(newMoney), 0.1);
+		driver.get(URL + "/home");
+		PO_PrivateView.logout(driver);
+		PO_PrivateView.login(driver, "fernando@email.com", "123456");
+		PO_HomeView.checkElement(driver, "text", "Hola");
+		}
+	
+		//Sobre el listado de ofertas de un usuario con mas de 20 euros de saldo, pinchar en el
+		//enlace Destacada y a continuación comprobar: i) que aparece en el listado de ofertas destacadas para los
+		//usuarios y que el saldo del usuario se actualiza adecuadamente en la vista del ofertante (-20).
+		@Test
+		public void PR37() {
+			PO_PrivateView.login(driver, "pepe@email.com", "123456");
+			String money = driver.findElement(By.id("money")).getText();
+			driver.get(URL + "/home");
+			PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
+			List<WebElement> hh = driver.findElements(By.id("highlightBtn"));
+			hh.get(0).click();
+			String newmoney = driver.findElement(By.id("money")).getText();
+			assertEquals(Double.parseDouble(money) - 20,Double.parseDouble(newmoney), 0.1);
+			driver.get(URL + "/home");
+			PO_PrivateView.logout(driver);
+			PO_PrivateView.login(driver, "fernando@email.com", "123456");
+			PO_HomeView.checkElement(driver, "text", "Caja");
+		}
+		
+		//Sobre el listado de ofertas de un usuario con menos de 20 euros de saldo, pinchar en el
+		//enlace Destacada y a continuación comprobar que se muestra el mensaje de saldo no suficiente.
+		@Test
+		public void PR38() {
+			PO_PrivateView.login(driver, "fernando@email.com", "123456");
+			PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
+			PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0",false);
+			driver.get(URL + "/home");
+			PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
+			List<WebElement> hh = driver.findElements(By.id("highlightBtn"));
+			hh.get(0).click();
+			PO_RegisterView.checkKey(driver, "Error.highlight.insuficient", PO_Properties.getSPANISH());
+		}
+
 }

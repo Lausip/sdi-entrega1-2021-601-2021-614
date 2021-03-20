@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head th:replace="fragments/head" />
-<body>
-	<nav th:replace="fragments/nav" />
-	<div class="container">
-	
-		<p th:replace="fragments/authenticated"></p>
-	
-		<h2 th:text="#{offer.myOffer.title}"></h2>
-		<p th:text="#{offer.myOffer.subtitle}"></p>
-		<div class="table-responsive">
-				<table class="table table-hover" th:fragment="myTableOffers"
+		<table class="table table-hover" th:fragment="myTableOffers"
 				id="myTableOffers">
 				<thead>
 					<tr>
@@ -35,7 +23,6 @@
 							 th:href="${'/offer/destacada/' + offer.id}"  th:text="#{offer.mylist.highlight}" >
 								Destacar
 							</a>
-							
  						</div>
 						<div  th:if="${offer.highlight!=false && offer.getPurchaser() == null}" >
 							<a type="button"
@@ -47,9 +34,3 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		<footer th:replace="fragments/pagination" />
-	</div>
-	<footer th:replace="fragments/footer" />
-</body>
-</html>

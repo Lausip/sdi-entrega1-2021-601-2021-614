@@ -29,7 +29,9 @@ public class Offer {
 	
 	private boolean purchased;
 	
-	public Offer(Long id, String titulo, Date date, String description, Double price,User user) {
+	private boolean highlight;
+	
+	public Offer(Long id, String titulo, Date date, String description, Double price,User user ) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -39,7 +41,7 @@ public class Offer {
 		this.user=user;
 	}
 	
-	public Offer(String titulo, String description, Double price, User user) {
+	public Offer(String titulo, String description, Double price, User user,boolean highlight) {
 		super();
 		this.description = description;
 		this.price = price;
@@ -47,6 +49,7 @@ public class Offer {
 		this.titulo = titulo;
 		this.user = user;
 		this.purchased = false;
+		this.highlight=highlight;
 	}
 	
 	public Offer() {
@@ -115,6 +118,14 @@ public class Offer {
 
 	public void setPurchased(boolean purchased) {
 		this.purchased = purchased;
+	}
+
+	public boolean getHighlight() {
+		return highlight;
+	}
+
+	public void setHighlight(boolean highlight) {
+		this.highlight = highlight;
 	}
 	
 }

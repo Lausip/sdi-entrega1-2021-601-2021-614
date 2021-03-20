@@ -15,10 +15,13 @@ public class OffersService {
 	
 	@Autowired
 	private OffersRepository offersRepository;
+	@Autowired
+	private UsersService usersService;
+	
 	
 	public void addOffer(Offer offer) {
 		offer.setDate(new Date(new java.util.Date().getTime()));
-		offersRepository.save(offer);
+		add(offer);
 	}
 
 	public Page<Offer> findAllByUser(Pageable pageable,User user) {
@@ -49,8 +52,45 @@ public class OffersService {
 	public void addOfferUser(Offer offer, User user) {
 		offer.setUser(user);
 		offer.setDate(new Date(new java.util.Date().getTime()));
+		if(offer.getHighlight()) {
+		setHighlight(offer,user);}
+		add(offer);
+		
+	}
+
+	public void setHighlight(Offer offer, User user) {
+			user.setMoney(user.getMoney() - 20);
+			offer.setHighlight(true);
+			usersService.add(user);
+			add(offer);
+			
+		}
+
+	public void add(Offer offer) {
 		offersRepository.save(offer);
 		
 	}
+
+	public void setNoHighlight(Offer offer, User user) {
+		user.setMoney(user.getMoney() + 20);
+		offer.setHighlight(false);
+		usersService.add(user);
+		add(offer);
+		
+	}
+
+	public Page<Offer> findAllHighlight(Pageable pageable) {
+		return offersRepository.findOffersHighlight(pageable);
+	}
+
+	public void removeOfferUser(Offer offer, User user) {
+		offer.setUser(null);
+		offer.setDate(null);
+		if(offer.getHighlight()) {
+		setNoHighlight(offer,user);}
+		offersRepository.delete(offer);
+		
+	}
+		
 
 }

@@ -21,7 +21,8 @@ public class AddOfferFormValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "titulo", "Error.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "Error.empty");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "Error.empty");
-		
+		if(offer.getHighlight()==true && offer.getUser().getMoney()<20)
+			errors.rejectValue("highlight", "Error.highlight.insuficient");
 		if (offer.getTitulo().length() > 15) {
 			errors.rejectValue("titulo", "Error.offer.add.titulo.length");
 		}

@@ -11,9 +11,40 @@
 	<p th:replace="fragments/authenticated"></p>
 
 	<h2 th:text="#{home.subtittle}"></h2>
-	
 </div>
-
+<div class="container">
+	<h2 th:text="#{offer.home.highlight.title}"></h2>
+		<p th:text="#{offer.home.highlight.subtitle}"></p>
+		<div class="table-responsive">
+				<table class="table table-hover" th:fragment="myTableHighlightOffers"
+				id="myTableHighlightOffers">
+							<thead>
+					<tr>
+						<th class="col-md-2" th:text="#{offer.title2}"></th>
+						<th th:text="#{offer.list.description}"></th>
+						<th th:text="#{offer.list.price}"></th>
+						<th th:text="#{offer.list.seller}"></th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="offer : ${offersHihglight}">
+						<td th:text="${offer.titulo}"></td>
+						<td th:text="${offer.description}"></td>
+						<td th:text="${offer.price}"></td>
+						<td th:text="${offer.user.name +' '+offer.user.lastName}"></td>
+						<td th:if="${userAuthenticated.money >= offer.price && offer.user.email!=userAuthenticated.email}">
+						<a th:if="!${offer.purchased}"><span
+								th:text="#{offer.list.buy}"></span></a>
+						</td>
+						<td><a th:if="${offer.purchased}"><span
+								th:text="#{offer.list.sold}"></span></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<footer th:replace="fragments/pagination" />
+	</div>
 <footer th:replace="fragments/footer" />
 
 </body>

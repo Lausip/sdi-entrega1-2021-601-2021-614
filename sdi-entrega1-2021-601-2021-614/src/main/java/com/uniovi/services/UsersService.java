@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.repositories.UsersRepository;
 
@@ -49,5 +50,12 @@ public class UsersService {
 		String email = auth.getName();
 		return getUserByEmail(email);
 	}
+
+	public void add(User user) {
+		usersRepository.save(user);
+		
+	}
+
+	
 	
 }

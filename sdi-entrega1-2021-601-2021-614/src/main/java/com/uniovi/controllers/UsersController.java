@@ -1,8 +1,12 @@
 package com.uniovi.controllers;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
+import com.uniovi.services.OffersService;
 import com.uniovi.services.RolesService;
 import com.uniovi.services.SecurityService;
 import com.uniovi.services.UsersService;
@@ -22,6 +28,10 @@ public class UsersController {
 
 	@Autowired
 	private UsersService usersService;
+	
+
+	@Autowired
+	private OffersService offersService;
 	
 	@Autowired
 	private RolesService rolesService;
@@ -56,8 +66,13 @@ public class UsersController {
     }
 	
 	@RequestMapping(value = { "/home" }, method = RequestMethod.GET)
-	public String home(Model model) {
+	public String home(Model model, Pageable pageable) {
 		model.addAttribute("userAuthenticated", usersService.getUserAuthenticated());
+		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
+		offers = offersService.findAllHighlight(pageable);
+		model.addAttribute("offersHihglight", offers.getContent());
+		model.addAttribute("page", offers);
+		
 		return "home";
 	}
 	
