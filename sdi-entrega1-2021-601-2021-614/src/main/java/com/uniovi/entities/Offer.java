@@ -1,12 +1,16 @@
 package com.uniovi.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Offer {
@@ -28,6 +32,10 @@ public class Offer {
 	private User purchaser;
 	
 	private boolean purchased;
+	
+	@OneToMany(mappedBy = "offer",  cascade=CascadeType.ALL)
+	private Set<Chat> chats = new HashSet<Chat>();
+	
 	
 	public Offer(Long id, String titulo, Date date, String description, Double price,User user) {
 		super();

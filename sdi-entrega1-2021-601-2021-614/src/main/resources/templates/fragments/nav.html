@@ -37,6 +37,16 @@
 					</ul>
 				</li>
 				
+				<li id="chats-menu" class="dropdown" sec:authorize="hasRole('ROLE_STANDARD')">
+					<a class="dorpdown-toggle" data-toggle="dropdown" href="#" th:text="#{chat.chats.menu}">
+						Chats
+						<span class="caret"></span>
+					</a>
+					<ul class=dropdown-menu sec:authorize="hasRole('ROLE_STANDARD')">
+						<li><a href="/chat/list"  th:text="#{chat.chats.menu.see}">Ver chats</a></li>
+					</ul>
+				</li>
+				
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">

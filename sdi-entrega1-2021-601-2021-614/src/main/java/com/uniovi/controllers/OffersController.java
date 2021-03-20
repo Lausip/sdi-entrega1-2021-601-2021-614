@@ -1,6 +1,5 @@
 package com.uniovi.controllers;
 
-import java.util.Date;
 import java.util.LinkedList;
 
 import org.apache.logging.log4j.LogManager;

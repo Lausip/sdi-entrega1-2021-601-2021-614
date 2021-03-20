@@ -21,4 +21,14 @@ footer {
   line-height:60px
 }
 
+.divColumnLeft {
+	float: left;
+	overflow: auto;
+}
+
+.divColumnRight {
+	float: right;
+	overflow: auto;
+}
+
 /* Sticky footer styles-------------------------------------------------- */

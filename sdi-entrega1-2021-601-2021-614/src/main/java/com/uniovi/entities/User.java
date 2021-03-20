@@ -40,6 +40,12 @@ public class User {
 	@OneToMany(mappedBy = "purchaser", cascade=CascadeType.ALL)
 	private Set<Offer> purchasedOffers = new HashSet<Offer>();
 	
+	@OneToMany(mappedBy = "seller",  cascade=CascadeType.ALL)
+	private Set<Chat> chatsAsSeller = new HashSet<Chat>();
+	
+	@OneToMany(mappedBy = "interested",  cascade=CascadeType.ALL)
+	private Set<Chat> chatsAsInterested = new HashSet<Chat>();
+	
 	
 	public User() {
 		
