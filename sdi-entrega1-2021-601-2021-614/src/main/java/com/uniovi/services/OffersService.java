@@ -84,8 +84,6 @@ public class OffersService {
 	}
 
 	public void removeOfferUser(Offer offer, User user) {
-		offer.setUser(null);
-		offer.setDate(null);
 		if(offer.getHighlight()) {
 		setNoHighlight(offer,user);}
 		offersRepository.delete(offer);

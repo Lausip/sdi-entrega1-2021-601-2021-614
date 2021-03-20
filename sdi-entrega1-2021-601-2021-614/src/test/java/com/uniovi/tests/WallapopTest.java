@@ -689,6 +689,33 @@ public class WallapopTest {
 		SeleniumUtils.textoPresentePagina(driver, "HTTP Status 403 – Forbidden");
 	}
 	
+	//Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la primera y
+	//comprobar que el listado se actualiza correctamente.
+	@Test
+	public void PR34() {
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		PO_NavView.clickDropdownMenuOption(driver, "chats-menu", "chats-menu", "/chat/list");
+		PO_View.getTimeout();
+		List<WebElement> hh = driver.findElements(By.id("deleteBtn"));
+		hh.get(0).click();
+		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
+				PO_View.getTimeout());
+		assertTrue(elementos2.size() ==0);
+	}
+	
+		//Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la última y
+		//comprobar que el listado se actualiza correctamente.
+		@Test
+		public void PR35() {
+			PO_PrivateView.login(driver, "pepe@email.com", "123456");
+			PO_NavView.clickDropdownMenuOption(driver, "chats-menu", "chats-menu", "/chat/list");
+			List<WebElement> hh = driver.findElements(By.id("deleteBtn"));
+			hh.get(0).click();
+			List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
+					PO_View.getTimeout());
+			assertTrue(elementos2.size() ==1);
+		}
+	
 	//Al crear una oferta marcar dicha oferta como destacada y a continuación comprobar: i) que
 	//aparece en el listado de ofertas destacadas para los usuarios y que el saldo del usuario se actualiza
 	//adecuadamente en la vista del ofertante (-20).

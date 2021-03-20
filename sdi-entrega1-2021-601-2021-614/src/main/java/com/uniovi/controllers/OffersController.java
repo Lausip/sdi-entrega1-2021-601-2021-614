@@ -81,10 +81,11 @@ public class OffersController {
 	
 	@RequestMapping("/offer/delete/{id}")
 	public String deleteOffer(@PathVariable Long id) {
+		Offer offer = offersService.getOfferById(id);
 		Long offerUserId = offersService.getOfferById(id).getUser().getId();
 		Long authenticatedUserId = usersService.getUserAuthenticated().getId();
 		if (offerUserId == authenticatedUserId) {
-			offersService.deleteOffer(id);
+			offersService.removeOfferUser(offer,usersService.getUserAuthenticated());
 		}
 		return "redirect:/offer/mylist";
 	}
