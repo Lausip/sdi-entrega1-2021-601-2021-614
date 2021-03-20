@@ -8,55 +8,51 @@
 <nav th:replace="fragments/nav" />
 
 <div class="container">
-	<h2>Chats</h2>
-	<p>Los chats que actualmente figuran en el sistema son los siguientes:</p>
-
 	<div>
-		<div class="table-responsive" class="divColumnLeft">
-			<table class="table table-hover" th:fragment="tableChatsAsSeller" id="tableChatsAsSeller">
-				<thead>
-					<tr>
-						<th>Email</th>
-						<th>Oferta</th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="chat : ${chatsAsSellerList}">
-						<td th:text="${chat.seller.email}">ejemplo@email.com</td>
-						<td th:text="${chat.offer.titulo}">Artículo</td>
-						<td><a th:href="${'/chat/conversation/' + chat.id}">Ver</a></td>
-						<td><a th:href="${'/chat/delete/' + chat.id}">Eliminar</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		
-		<div class="table-responsive" class="divColumnRight">
-			<table class="table table-hover" th:fragment="tableChatsAsInterested" id="tableChatsAsInterested">
-				<thead>
-					<tr>
-						<th>Email</th>
-						<th>Oferta</th>
-						<th class="col-md-1"></th>
-						<th class="col-md-1"></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="chat : ${chatsAsInterestedList}">
-						<td th:text="${chat.interested.email}">ejemplo@email.com</td>
-						<td th:text="${chat.offer.titulo}">Artículo</td>
-						<td><a th:href="${'/chat/details/' + chat.id}">Ver</a></td>
-						<td><a th:href="${'/chat/delete/' + chat.id}">Eliminar</a></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<h2 th:text="#{chat.chat}">Chatear</h2>
+		<p>
+			<span th:inline="text" th:text="#{chat.chat.user}">Usuario:</span>
+			<span th:inline="text" th:text="${theOtherUser.email}"></span>
+		</p>
+		<p>
+			<span th:inline="text" th:text="{chat.chat.offer}">Oferta:</span>
+			<span th:inline="text" th:text="${offer.titulo}"></span>
+		</p>
+	</div>
+	
+	<div class="table-responsive">
+
+		<table class="table table-hover" th:fragment="tableMessages" id="tableMessages">
+			<thead>
+				<tr>
+					<th class="col-md-1"></th>
+					<th class="col-md-1"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="message : ${messagesList}">
+					<td th:if="${message.author.email != user.email}"></td>
+					<td>
+						<p th:text="${message.author.email}"></p>
+						<p th:text="${message.date}"></p>
+						<p th:text="${message.text}"></p>
+					</td>
+					<td th:if="${message.author.email == user.email}"></td>
+				</tr>
+			</tbody>
+		</table>
 
 	</div>
 	
-	<footer th:replace="fragments/pagination"/>
+	<div>
+		<form class="navbar-form" action="/message/add">
+			<div class="form-group">
+				<input name="messageText" type="text" class="form-control" size="100"
+					placeholder="Message">
+			</div>
+			<button type="submit" class="btn btn-default" th:text="#{send}">Enviar</button>
+		</form>
+	</div>
 	
 </div>
 

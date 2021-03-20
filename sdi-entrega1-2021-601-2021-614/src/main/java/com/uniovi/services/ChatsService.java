@@ -16,12 +16,6 @@ public class ChatsService {
 	@Autowired
 	private ChatsRepository chatsRepository;
 	
-	public List<Chat> getChats() {
-		List<Chat> chats = new ArrayList<Chat>();
-		chatsRepository.findAll().forEach(chats::add);
-		return chats;
-	}
-	
 	public List<Chat> getChatsAsSellerByUser(User seller) {
 		List<Chat> chats = new ArrayList<Chat>();
 		chatsRepository.findAllByUserAsSeller(seller).forEach(chats::add);
@@ -32,6 +26,10 @@ public class ChatsService {
 		List<Chat> chats = new ArrayList<Chat>();
 		chatsRepository.findAllByUserAsInterested(interested).forEach(chats::add);
 		return chats;
+	}
+	
+	public Chat getChatById(Long id) {
+		return chatsRepository.findById(id).get();
 	}
 	
 }
