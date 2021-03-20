@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head" />
+
+<body>
+
+<nav th:replace="fragments/nav" />
+
+<div class="container">
+	<h2 th:text="#{chat.chats.title}">Chats</h2>
+	<p th:text="#{chat.chats.subtitle}">Los chats que actualmente figuran en el sistema son los siguientes:</p>
+	
+	<div class="table-responsive">
+		<div class="divColumnLeft">
+			<h3 th:text="#{chat.chats.seller}">Chats como vendedor</h3>
+			<table class="table table-hover" th:fragment="tableChatsAsSeller" id="tableChatsAsSeller">
+				<thead>
+					<tr>
+						<th th:text="#{chat.user}">Email</th>
+						<th th:text="#{chat.offer}">Oferta</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="chat : ${chatsAsSellerList}">
+						<td th:text="${chat.seller.email}">ejemplo@email.com</td>
+						<td th:text="${chat.offer.titulo}">Artículo</td>
+						<td><a th:href="${'/chat/details/' + chat.id}" th:text="#{see}">Ver</a></td>
+						<td><a th:href="${'/chat/delete/' + chat.id}" th:text="#{delete}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="divColumnRight">
+			<h3 th:text="#{chat.chats.interested}">Chats como interesado</h3>
+			<table class="table table-hover" th:fragment="tableChatsAsInterested" id="tableChatsAsInterested">
+				<thead>
+					<tr>
+						<th th:text="#{chat.user}">Email</th>
+						<th th:text="#{chat.offer}">Oferta</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="chat : ${chatsAsInterestedList}">
+						<td th:text="${chat.interested.email}">ejemplo@email.com</td>
+						<td th:text="${chat.offer.titulo}">Artículo</td>
+						<td><a th:href="${'/chat/details/' + chat.id}" th:text="#{see}">Ver</a></td>
+						<td><a th:href="${'/chat/delete/' + chat.id}" th:text="#{delete}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<!--
+	<div>
+		<div class="table-responsive" class="divColumnLeft">
+			<table class="table table-hover" th:fragment="tableChatsAsSeller" id="tableChatsAsSeller">
+				<thead>
+					<tr>
+						<th th:text="#{chat.user}">Email</th>
+						<th th:text="#{chat.offer}">Oferta</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="chat : ${chatsAsSellerList}">
+						<td th:text="${chat.seller.email}">ejemplo@email.com</td>
+						<td th:text="${chat.offer.titulo}">Artículo</td>
+						<td><a th:href="${'/chat/details/' + chat.id}" th:text="#{see}">Ver</a></td>
+						<td><a th:href="${'/chat/delete/' + chat.id}" th:text="#{delete}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="table-responsive" class="divColumnRight">
+			<table class="table table-hover" th:fragment="tableChatsAsInterested" id="tableChatsAsInterested">
+				<thead>
+					<tr>
+						<th th:text="#{chat.user}">Email</th>
+						<th th:text="#{chat.offer}">Oferta</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="chat : ${chatsAsInterestedList}">
+						<td th:text="${chat.interested.email}">ejemplo@email.com</td>
+						<td th:text="${chat.offer.titulo}">Artículo</td>
+						<td><a th:href="${'/chat/details/' + chat.id}" th:text="#{see}">Ver</a></td>
+						<td><a th:href="${'/chat/delete/' + chat.id}" th:text="#{delete}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	<div>
+	-->
+
+	
+</div>
+
+<footer th:replace="fragments/footer" />
+
+</body>
+</html>

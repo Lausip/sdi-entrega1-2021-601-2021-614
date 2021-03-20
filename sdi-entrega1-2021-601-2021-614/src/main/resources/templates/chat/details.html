@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="fragments/head" />
+
+<body>
+
+<nav th:replace="fragments/nav" />
+
+<div class="container">
+	<h2>Chats</h2>
+	<p>Los chats que actualmente figuran en el sistema son los siguientes:</p>
+
+	<div>
+		<div class="table-responsive" class="divColumnLeft">
+			<table class="table table-hover" th:fragment="tableChatsAsSeller" id="tableChatsAsSeller">
+				<thead>
+					<tr>
+						<th>Email</th>
+						<th>Oferta</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="chat : ${chatsAsSellerList}">
+						<td th:text="${chat.seller.email}">ejemplo@email.com</td>
+						<td th:text="${chat.offer.titulo}">Artículo</td>
+						<td><a th:href="${'/chat/conversation/' + chat.id}">Ver</a></td>
+						<td><a th:href="${'/chat/delete/' + chat.id}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		
+		<div class="table-responsive" class="divColumnRight">
+			<table class="table table-hover" th:fragment="tableChatsAsInterested" id="tableChatsAsInterested">
+				<thead>
+					<tr>
+						<th>Email</th>
+						<th>Oferta</th>
+						<th class="col-md-1"></th>
+						<th class="col-md-1"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="chat : ${chatsAsInterestedList}">
+						<td th:text="${chat.interested.email}">ejemplo@email.com</td>
+						<td th:text="${chat.offer.titulo}">Artículo</td>
+						<td><a th:href="${'/chat/details/' + chat.id}">Ver</a></td>
+						<td><a th:href="${'/chat/delete/' + chat.id}">Eliminar</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	
+	<footer th:replace="fragments/pagination"/>
+	
+</div>
+
+<footer th:replace="fragments/footer" />
+
+</body>
+</html>
