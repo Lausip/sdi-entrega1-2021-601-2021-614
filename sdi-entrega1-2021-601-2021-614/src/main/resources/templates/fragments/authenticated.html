@@ -5,7 +5,7 @@
 	</p>
 	<p>
 		<span th:inline="text" th:text="#{private.zone.money}"  sec:authorize="hasRole('ROLE_STANDARD')"></span>
-		<span th:inline="text" th:text="${userAuthenticated.money}"  sec:authorize="hasRole('ROLE_STANDARD')"></span>
+		<span th:inline="text" th:id="money" th:text="${userAuthenticated.money}"  sec:authorize="hasRole('ROLE_STANDARD')"></span>
 		<span th:inline="text" th:text="#{private.zone.currency}"  sec:authorize="hasRole('ROLE_STANDARD')"></span>
 	</p>
 </div> 

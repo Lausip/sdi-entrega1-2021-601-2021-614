@@ -46,4 +46,10 @@ public class ChatsController {
 		return "chat/details";
 	}
 	
+	@RequestMapping(value = "/chat/delete/{id}")
+	public String remove(@PathVariable Long id) {
+		Chat chat = chatsService.getChat(id);
+		chatsService.deleteChat(chat);
+		return "redirect:/chat/list";
+	}
 }

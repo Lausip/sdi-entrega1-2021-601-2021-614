@@ -17,9 +17,12 @@ public interface OffersRepository extends CrudRepository<Offer, Long> {
 	Page<Offer> findAllPurchasedByUser(Pageable pageable, User user);
 
 	@Query("SELECT r FROM Offer r WHERE r.user!= ?1")
-	
 	Page<Offer> findAllExceptUser(Pageable pageable,User user);
+	
 	@Query("SELECT r FROM Offer r WHERE r.user!= ?1 and LOWER(r.titulo)LIKE LOWER(?2)")
 	Page<Offer> earchOffersByTitle(Pageable pageable, User user, String searchText);
+	
+	@Query("SELECT r FROM Offer r WHERE r.highlight=true")
+	Page<Offer> findOffersHighlight(Pageable pageable);
 
 }

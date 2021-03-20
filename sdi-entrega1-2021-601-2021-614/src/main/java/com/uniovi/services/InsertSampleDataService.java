@@ -61,6 +61,7 @@ public class InsertSampleDataService {
 		usersService.addUser(user7);
 		
 		User user8 = new User("fernando@email.com", "Fernando Manuel", "García del Monte");
+		user8.setMoney(0);
 		user8.setPassword("123456");
 		user8.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user8);
@@ -73,36 +74,36 @@ public class InsertSampleDataService {
 		
 		// Añadir ofertas
 		
-		Offer offer = new Offer("Juguete", "Juguete infantil", 10.0, user3);
+		Offer offer = new Offer("Juguete", "Juguete infantil", 10.0, user3,false);
 		offersService.addOffer(offer);
-		offer = new Offer("Caja", "Caja de cartón azul", 5.0, user3);
+		offer = new Offer("Caja", "Caja de cartón azul", 5.0, user3,false);
 		offersService.addOffer(offer);
-		offer = new Offer("Papel", "Papel de regalo", 1.0, user3);
+		offer = new Offer("Papel", "Papel de regalo", 1.0, user3,false);
 		offersService.addOffer(offer);
-		offer = new Offer("Folios", "Paquete de 500 folios", 4.0, user3);
+		offer = new Offer("Folios", "Paquete de 500 folios", 4.0, user3,false);
 		offersService.addOffer(offer);
-		offer = new Offer("Bolígrafo", "Bolígrafo de tinta líquida", 2.0, user3);
+		offer = new Offer("Bolígrafo", "Bolígrafo de tinta líquida", 2.0, user3,false);
 		offersService.addOffer(offer);
-		offer = new Offer("Bicicleta", "Bicicleta infantil", 70.0, user3);
+		offer = new Offer("Bicicleta", "Bicicleta infantil", 70.0, user3,false);
 		offersService.addOffer(offer);
-		offer = new Offer("Patinete", "Patinete eléctrico", 280.0, user3);
+		offer = new Offer("Patinete", "Patinete eléctrico", 280.0, user3,false);
 		offersService.addOffer(offer);
-		offer = new Offer("Rotuladores", "Rotuladores de colores", 12.0, user3);
-		offersService.addOffer(offer);
+		offer = new Offer("Rotuladores", "Rotuladores de colores", 12.0, user3,false);
+		offersService.addOffer(offer);		
 		
-		offer = new Offer("Pato", "Pato de goma", 3.0, user5);
+		offer = new Offer("Pato", "Pato de goma", 3.0, user5,true);
 		offersService.addOffer(offer);
 		System.out.println("Pato: " + offer.getId());
 		
-		offer = new Offer("Vestido", "Vestido azul", 20.0, user5);
+		offer = new Offer("Vestido", "Vestido azul", 20.0, user5,false);
 		offersService.addOffer(offer);
 		System.out.println("Vestido: " + offer.getId());
 		
-		offer = new Offer("Tienda", "Tienda de campaña", 80.0, user5);
+		offer = new Offer("Tienda", "Tienda de campaña", 80.0, user5,false);
 		offersService.addOffer(offer);
 		System.out.println("Tienda: " + offer.getId());
 		
-		offer = new Offer("Saco", "Saco de dormir", 11.0, user5);
+		offer = new Offer("Saco", "Saco de dormir", 11.0, user5,false);
 		offersService.addOffer(offer);
 		
 	}

@@ -1,5 +1,6 @@
 package com.uniovi.tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -155,14 +156,13 @@ public class WallapopTest {
 	// contraseña vacíos)
 	@Test
 	public void PR07() {
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//		PO_LoginView.fillForm(driver, "", "123456");
-//		SeleniumUtils.textoPresentePagina(driver, "Rellene este campo.");
-//		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
-//		PO_LoginView.fillForm(driver, "Jose@gmail.com", " ");
-//		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
-//		PO_LoginView.fillForm(driver, " ", " ");
-//		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "", "123456");
+		SeleniumUtils.textoPresentePagina(driver, "Identifícate");
+		PO_LoginView.fillForm(driver, "Jose@gmail.com", " ");
+		SeleniumUtils.textoPresentePagina(driver, "Identifícate");
+		PO_LoginView.fillForm(driver, " ", " ");
+		SeleniumUtils.textoPresentePagina(driver, "Identifícate");
 	}
 
 	// Inicio de sesión con datos válidos (usuario estándar, email existente, pero
@@ -343,9 +343,9 @@ public class WallapopTest {
 	//Comprobar que la oferta sale en el listado de ofertas de dicho usuario.
 	@Test
 	public void PR16() {
-		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
-		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0");
+		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0",false);
 		PO_HomeView.checkElement(driver, "text", "Hola");
 	}
 	
@@ -353,13 +353,13 @@ public class WallapopTest {
 	//el botón Submit. Comprobar que se muestra el mensaje de campo obligatorio
 	@Test
 	public void PR17() {
-		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
-		PO_AddOfferView.fillForm(driver, "", "Hola esto es una prueba", "15.0");
+		PO_AddOfferView.fillForm(driver, "", "Hola esto es una prueba", "15.0",false);
 		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
-		PO_AddOfferView.fillForm(driver, "Hola", " ", "46.0");
+		PO_AddOfferView.fillForm(driver, "Hola", " ", "46.0",false);
 		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
-		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", " ");
+		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", " ",false);
 		PO_RegisterView.checkKey(driver, "Error.empty", PO_Properties.getSPANISH());
 	}
 	//	Mostrar el listado de ofertas para dicho usuario y comprobar que se muestran todas los que
@@ -370,7 +370,7 @@ public class WallapopTest {
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
 		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
 				PO_View.getTimeout());
-		assertTrue(elementos2.size() ==4);
+		assertTrue(elementos2.size() ==5);
 	
 	}
 	
@@ -454,6 +454,40 @@ public class WallapopTest {
 		
 		// Finalmente, nos desconectamos.
 		PO_PrivateView.logout(driver);
+	}
+	
+	//	Hacer una búsqueda con el campo vacío y comprobar que se muestra la página que
+	//	corresponde con el listado de las ofertas existentes en el sistema
+	@Test
+	public void PR21() {
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/list");
+		WebElement buscar = driver.findElement(By.name("searchText"));
+		buscar.click();
+		buscar.clear();
+		buscar.sendKeys("");
+		buscar.click();
+		List<WebElement> elementos;
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 5);
+		driver.findElements(By.xpath("//a[contains(@class, 'page-link')]")).get(2).click();
+		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
+		assertTrue(elementos.size() == 1);
+
+	}
+	//Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se 
+	//muestra la página que corresponde, con la lista de ofertas vacía.
+	@Test
+	public void PR22() {
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/list");
+		WebElement buscar = driver.findElement(By.name("searchText"));
+		buscar.click();
+		buscar.clear();
+		buscar.sendKeys("hello");
+		driver.findElement(By.className("btn")).click();
+		assertTrue(driver.findElements(By.xpath("//table[@id='tableOffers']/tbody/tr")).size() == 0);
+
 	}
 	
 	/*
@@ -630,4 +664,106 @@ public class WallapopTest {
 		
 	}
 	
+	//	Intentar acceder sin estar autenticado a la opción de listado de usuarios del administrador. Se
+	//	deberá volver al formulario de login
+	@Test
+	public void PR28() {
+		driver.get(URL + "/user/list");
+		PO_View.checkElement(driver, "text", "Identifícate");
+	}
+	
+	//	Intentar acceder sin estar autenticado a la opción de listado de ofertas propias de un usuario
+	//	estándar. Se deberá volver al formulario de login.
+	@Test
+	public void PR29() {
+		driver.get(URL + "/offer/mylist");
+		PO_View.checkElement(driver, "text", "Identifícate");
+	}
+	
+	//	Estando autenticado como usuario estándar intentar acceder a la opción de listado de
+	//	usuarios del administrador. Se deberá indicar un mensaje de acción prohibida.
+	@Test
+	public void PR30() {
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		driver.get(URL + "/user/list");
+		SeleniumUtils.textoPresentePagina(driver, "HTTP Status 403 – Forbidden");
+	}
+	
+	//Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la primera y
+	//comprobar que el listado se actualiza correctamente.
+	@Test
+	public void PR34() {
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		PO_NavView.clickDropdownMenuOption(driver, "chats-menu", "chats-menu", "/chat/list");
+		PO_View.getTimeout();
+		List<WebElement> hh = driver.findElements(By.id("deleteBtn"));
+		hh.get(0).click();
+		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
+				PO_View.getTimeout());
+		assertTrue(elementos2.size() ==0);
+	}
+	
+		//Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la última y
+		//comprobar que el listado se actualiza correctamente.
+		@Test
+		public void PR35() {
+			PO_PrivateView.login(driver, "pepe@email.com", "123456");
+			PO_NavView.clickDropdownMenuOption(driver, "chats-menu", "chats-menu", "/chat/list");
+			List<WebElement> hh = driver.findElements(By.id("deleteBtn"));
+			hh.get(0).click();
+			List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
+					PO_View.getTimeout());
+			assertTrue(elementos2.size() ==1);
+		}
+	
+	//Al crear una oferta marcar dicha oferta como destacada y a continuación comprobar: i) que
+	//aparece en el listado de ofertas destacadas para los usuarios y que el saldo del usuario se actualiza
+	//adecuadamente en la vista del ofertante (-20).
+	@Test
+	public void PR36() {
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		String money = driver.findElement(By.id("money")).getText();
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
+		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0",true);
+		String newMoney =  driver.findElement(By.id("money")).getText();
+		assertEquals(Double.parseDouble(money) - 20, Double.parseDouble(newMoney), 0.1);
+		driver.get(URL + "/home");
+		PO_PrivateView.logout(driver);
+		PO_PrivateView.login(driver, "fernando@email.com", "123456");
+		PO_HomeView.checkElement(driver, "text", "Hola");
+		}
+	
+		//Sobre el listado de ofertas de un usuario con mas de 20 euros de saldo, pinchar en el
+		//enlace Destacada y a continuación comprobar: i) que aparece en el listado de ofertas destacadas para los
+		//usuarios y que el saldo del usuario se actualiza adecuadamente en la vista del ofertante (-20).
+		@Test
+		public void PR37() {
+			PO_PrivateView.login(driver, "pepe@email.com", "123456");
+			String money = driver.findElement(By.id("money")).getText();
+			driver.get(URL + "/home");
+			PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
+			List<WebElement> hh = driver.findElements(By.id("highlightBtn"));
+			hh.get(0).click();
+			String newmoney = driver.findElement(By.id("money")).getText();
+			assertEquals(Double.parseDouble(money) - 20,Double.parseDouble(newmoney), 0.1);
+			driver.get(URL + "/home");
+			PO_PrivateView.logout(driver);
+			PO_PrivateView.login(driver, "fernando@email.com", "123456");
+			PO_HomeView.checkElement(driver, "text", "Caja");
+		}
+		
+		//Sobre el listado de ofertas de un usuario con menos de 20 euros de saldo, pinchar en el
+		//enlace Destacada y a continuación comprobar que se muestra el mensaje de saldo no suficiente.
+		@Test
+		public void PR38() {
+			PO_PrivateView.login(driver, "fernando@email.com", "123456");
+			PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
+			PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0",false);
+			driver.get(URL + "/home");
+			PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
+			List<WebElement> hh = driver.findElements(By.id("highlightBtn"));
+			hh.get(0).click();
+			PO_RegisterView.checkKey(driver, "Error.highlight.insuficient", PO_Properties.getSPANISH());
+		}
+
 }

@@ -10,8 +10,8 @@
 		<h2 th:text="#{offer.myOffer.title}"></h2>
 		<p th:text="#{offer.myOffer.subtitle}"></p>
 		<div class="table-responsive">
-			<table class="table table-hover" th:fragment="tableOffers"
-				id="tableOffers">
+				<table class="table table-hover" th:fragment="myTableOffers"
+				id="myTableOffers">
 				<thead>
 					<tr>
 						<th class="col-md-2" th:text="#{offer.mylist.title2}"></th>
@@ -28,6 +28,21 @@
 						<td>
 							<a sec:authorize="hasRole('ROLE_STANDARD')"
 							th:href="${'/offer/delete/' + offer.id}" th:text="#{delete}">Eliminar</a>
+						</td>
+						<td>
+						<div th:if="${offer.highlight == false && offer.getPurchaser() == null}">
+							<a type="button"  th:id="highlightBtn" class="btn btn-info"  
+							 th:href="${'/offer/destacada/' + offer.id}"  th:text="#{offer.mylist.highlight}" >
+								Destacar
+							</a>
+							
+ 						</div>
+						<div  th:if="${offer.highlight!=false && offer.getPurchaser() == null}" >
+							<a type="button"
+							 class="btn btn-info"   th:id="nohighlightBtn"   th:href="${'/offer/normal/' + offer.id}"
+							 th:text="#{offer.mylist.nohighlight}">
+							</a>
+						</div>
 						</td>
 					</tr>
 				</tbody>

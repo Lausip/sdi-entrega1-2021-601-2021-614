@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 
 public class PO_AddOfferView extends PO_View {
 
-	static public void fillForm(WebDriver driver, String titlep, String descriptionp, String pricep) {
+	static public void fillForm(WebDriver driver, String titlep, String descriptionp, String pricep,boolean highlight) {
 		WebElement title = driver.findElement(By.name("titulo"));
 		title.click();
 		title.clear();
@@ -19,7 +19,13 @@ public class PO_AddOfferView extends PO_View {
 		price.click();
 		price.clear();
 		price.sendKeys(pricep);
+		if(highlight) {
+		WebElement h = driver.findElement(By.name("highlight"));
+		h.click();
+		}
 		By boton = By.className("btn");
 		driver.findElement(boton).click();
 	}
+
+
 }

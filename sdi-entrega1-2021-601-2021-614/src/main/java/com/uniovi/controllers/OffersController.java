@@ -1,6 +1,9 @@
 package com.uniovi.controllers;
 
+
 import java.util.LinkedList;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 import com.uniovi.services.OffersService;
@@ -52,13 +54,15 @@ public class OffersController {
 	
 	@RequestMapping(value = "/offer/add", method = RequestMethod.POST)
 	public String setOffer(Model model, Pageable pageable, @Validated Offer offer, BindingResult result) {
+		User user=usersService.getUserAuthenticated();
+		offersService.addOfferUser(offer,user);
 		addOfferFormValidator.validate(offer, result);
 		if (result.hasErrors()) {
+			offersService.removeOfferUser(offer,user);
 			model.addAttribute("userAuthenticated", usersService.getUserAuthenticated());
 			return "offer/add";
 		}
-		User user=usersService.getUserAuthenticated();
-		offersService.addOfferUser(offer,user);
+
 		logger.info(String.format("Add item %s", offer.getTitulo()));
 		model.addAttribute("myOffers", offersService.findAllByUser(pageable, usersService.getUserAuthenticated()));
 		return "redirect:/offer/mylist";
@@ -77,10 +81,11 @@ public class OffersController {
 	
 	@RequestMapping("/offer/delete/{id}")
 	public String deleteOffer(@PathVariable Long id) {
+		Offer offer = offersService.getOfferById(id);
 		Long offerUserId = offersService.getOfferById(id).getUser().getId();
 		Long authenticatedUserId = usersService.getUserAuthenticated().getId();
 		if (offerUserId == authenticatedUserId) {
-			offersService.deleteOffer(id);
+			offersService.removeOfferUser(offer,usersService.getUserAuthenticated());
 		}
 		return "redirect:/offer/mylist";
 	}
@@ -131,4 +136,37 @@ public class OffersController {
 		return "offer/list";
 	}
 	
+	@RequestMapping("/offer/destacada/{id}")
+	public String highlighter(@PathVariable Long id,HttpSession session) {
+		Offer offer = offersService.getOfferById(id);
+		User user = usersService.getUserAuthenticated();
+
+		if(user.getMoney() < 20) {
+			session.setAttribute("highlight", "Error.highlight.insuficient");
+			return "redirect:/offer/mylist";
+		}
+
+		offersService.setHighlight(offer, user);
+		logger.info(String.format("Hightlight offer %d", id));
+
+		return "redirect:/offer/mylist";
+	}
+	
+	@RequestMapping("/offer/normal/{id}")
+	public String nohighlighter(@PathVariable Long id,HttpSession session) {
+		Offer offer = offersService.getOfferById(id);
+		User user = usersService.getUserAuthenticated();
+		offersService.setNoHighlight(offer, user);
+		logger.info(String.format("Normal offer %d", id));
+
+		return "redirect:/offer/mylist";
+	}
+	
+	@RequestMapping("/offer/mylist/update")
+	public String updateMyList(Model model, Pageable pageable) {
+		User user = usersService.getUserAuthenticated();
+		Page<Offer> offers = offersService.findAllByUser(pageable, user);
+		model.addAttribute("myOffers", offers.getContent());
+		return "offer/mylist :: myTableOffers";
+	}
 }
