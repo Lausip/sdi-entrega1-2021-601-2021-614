@@ -156,14 +156,13 @@ public class WallapopTest {
 	// contraseña vacíos)
 	@Test
 	public void PR07() {
-//		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-//		PO_LoginView.fillForm(driver, "", "123456");
-//		SeleniumUtils.textoPresentePagina(driver, "Rellene este campo.");
-//		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
-//		PO_LoginView.fillForm(driver, "Jose@gmail.com", " ");
-//		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
-//		PO_LoginView.fillForm(driver, " ", " ");
-//		PO_RegisterView.checkKey(driver, "Error.login.error", PO_Properties.getSPANISH());
+		PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+		PO_LoginView.fillForm(driver, "", "123456");
+		SeleniumUtils.textoPresentePagina(driver, "Identifícate");
+		PO_LoginView.fillForm(driver, "Jose@gmail.com", " ");
+		SeleniumUtils.textoPresentePagina(driver, "Identifícate");
+		PO_LoginView.fillForm(driver, " ", " ");
+		SeleniumUtils.textoPresentePagina(driver, "Identifícate");
 	}
 
 	// Inicio de sesión con datos válidos (usuario estándar, email existente, pero
