@@ -1,5 +1,7 @@
 package com.uniovi.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,8 @@ public class ChatsController {
 	
 	@Autowired
 	private MessagesService messagesService;
+	
+	private Logger logger = LoggerFactory.getLogger(ChatsController.class);
 	
 	@RequestMapping("/chat/list")
 	public String getList(Model model) {
@@ -59,6 +63,7 @@ public class ChatsController {
 	public String remove(@PathVariable Long id) {
 		Chat chat = chatsService.getChat(id);
 		chatsService.deleteChat(chat);
+		logger.info(String.format("Delete chat %d", id));
 		return "redirect:/chat/list";
 	}
 	

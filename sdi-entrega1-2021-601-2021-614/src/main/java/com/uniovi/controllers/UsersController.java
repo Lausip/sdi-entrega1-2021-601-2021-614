@@ -3,6 +3,8 @@ package com.uniovi.controllers;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -41,6 +43,8 @@ public class UsersController {
 	
 	@Autowired
 	private SignUpFormValidator signUpFormValidator;
+	
+	private Logger logger = LoggerFactory.getLogger(UsersController.class);
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(Model model) {

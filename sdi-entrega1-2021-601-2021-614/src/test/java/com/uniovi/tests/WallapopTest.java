@@ -32,11 +32,11 @@ public class WallapopTest {
 
 	// Parámetros de Laura
 //	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-//	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 	
 	// Parámetros de Rut
 	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\rualg\\OneDrive\\Escritorio\\SDI\\Práctica5\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+//	static String Geckdriver024 = "C:\\Users\\rualg\\OneDrive\\Escritorio\\SDI\\Práctica5\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 	
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
@@ -474,7 +474,7 @@ public class WallapopTest {
 		assertTrue(elementos.size() == 5);
 		driver.findElements(By.xpath("//a[contains(@class, 'page-link')]")).get(2).click();
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
-		assertTrue(elementos.size() == 1);
+		assertTrue(elementos.size() == 4);
 
 	}
 	//Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se 
@@ -719,11 +719,10 @@ public class WallapopTest {
 		PO_PrivateView.login(driver, "pepe@email.com", "123456");
 		PO_NavView.clickDropdownMenuOption(driver, "chats-menu", "chats-menu", "/chat/list");
 		PO_View.getTimeout();
-		List<WebElement> hh = driver.findElements(By.id("deleteBtn"));
+		List<WebElement> hh = driver.findElements(By.id("deleteSellerBtn"));
 		hh.get(0).click();
-		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
-				PO_View.getTimeout());
-		assertTrue(elementos2.size() ==0);
+		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "id", "tabletrChatsAsSeller", PO_View.getTimeout());
+		assertTrue(elementos2.size() ==2);
 	}
 	
 		//Sobre el listado de conversaciones ya abiertas. Pinchar el enlace Eliminar de la última y
@@ -732,9 +731,9 @@ public class WallapopTest {
 		public void PR35() {
 			PO_PrivateView.login(driver, "pepe@email.com", "123456");
 			PO_NavView.clickDropdownMenuOption(driver, "chats-menu", "chats-menu", "/chat/list");
-			List<WebElement> hh = driver.findElements(By.id("deleteBtn"));
-			hh.get(0).click();
-			List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
+			List<WebElement> hh = driver.findElements(By.id("deleteInterestedBtn"));
+			hh.get(1).click();
+			List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "id", "tableChatsAsInterested",
 					PO_View.getTimeout());
 			assertTrue(elementos2.size() ==1);
 		}
@@ -744,7 +743,7 @@ public class WallapopTest {
 	//adecuadamente en la vista del ofertante (-20).
 	@Test
 	public void PR36() {
-		PO_PrivateView.login(driver, "pepe@email.com", "123456");
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
 		String money = driver.findElement(By.id("money")).getText();
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
 		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0",true);
@@ -761,7 +760,7 @@ public class WallapopTest {
 		//usuarios y que el saldo del usuario se actualiza adecuadamente en la vista del ofertante (-20).
 		@Test
 		public void PR37() {
-			PO_PrivateView.login(driver, "pepe@email.com", "123456");
+			PO_PrivateView.login(driver, "alberto@email.com", "123456");
 			String money = driver.findElement(By.id("money")).getText();
 			driver.get(URL + "/home");
 			PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
@@ -772,7 +771,7 @@ public class WallapopTest {
 			driver.get(URL + "/home");
 			PO_PrivateView.logout(driver);
 			PO_PrivateView.login(driver, "fernando@email.com", "123456");
-			PO_HomeView.checkElement(driver, "text", "Caja");
+			PO_HomeView.checkElement(driver, "text", "Saco");
 		}
 		
 		//Sobre el listado de ofertas de un usuario con menos de 20 euros de saldo, pinchar en el

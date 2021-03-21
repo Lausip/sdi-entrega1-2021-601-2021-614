@@ -5,8 +5,8 @@ import java.util.LinkedList;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,7 +30,7 @@ import com.uniovi.validators.PurchaseOfferValidator;
 @Controller
 public class OffersController {
 	
-	private static final Logger logger = LogManager.getLogger(OffersController.class);
+	private Logger logger = LoggerFactory.getLogger(OffersController.class);
 	
 	@Autowired
 	private OffersService offersService;
@@ -63,7 +63,7 @@ public class OffersController {
 			return "offer/add";
 		}
 
-		logger.info(String.format("Add item %s", offer.getTitulo()));
+		logger.info(String.format("Add offer %s", offer.getTitulo()));
 		model.addAttribute("myOffers", offersService.findAllByUser(pageable, usersService.getUserAuthenticated()));
 		return "redirect:/offer/mylist";
 	}
@@ -140,7 +140,10 @@ public class OffersController {
 	public String highlighter(@PathVariable Long id,HttpSession session) {
 		Offer offer = offersService.getOfferById(id);
 		User user = usersService.getUserAuthenticated();
-
+		
+		if(offer == null || user == null) {
+			throw new IllegalStateException("Illegal");
+		}
 		if(user.getMoney() < 20) {
 			session.setAttribute("highlight", "Error.highlight.insuficient");
 			return "redirect:/offer/mylist";

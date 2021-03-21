@@ -48,6 +48,7 @@
 				</tbody>
 			</table>
 		</div>
+		<div th:if="${highlight != null}" id="money-error" class="alert alert-danger" th:text="#{Error.highlight.insuficient}"></div>
 		<footer th:replace="fragments/pagination" />
 	</div>
 	<footer th:replace="fragments/footer" />

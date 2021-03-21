@@ -23,12 +23,12 @@
 						<th class="col-md-1"></th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr th:each="chat : ${chatsAsSellerList}">
+				<tbody >
+					<tr th:each="chat : ${chatsAsSellerList}" id="tabletrChatsAsSeller">
 						<td th:text="${chat.interested.email}">ejemplo@email.com</td>
 						<td th:text="${chat.offer.titulo}">Artículo</td>
 						<td><a th:href="${'/chat/details/' + chat.id}" th:text="#{see}">Ver</a></td>
-						<td><a th:href="${'/chat/delete/' + chat.id}" th:text="#{delete}">Eliminar</a></td>
+						<td><a th:id= "deleteSellerBtn" th:href="${'/chat/delete/' + chat.id}" th:text="#{delete}">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -50,7 +50,7 @@
 						<td th:text="${chat.seller.email}">ejemplo@email.com</td>
 						<td th:text="${chat.offer.titulo}">Artículo</td>
 						<td><a th:href="${'/chat/details/' + chat.id}" th:text="#{see}">Ver</a></td>
-						<td><a th:id= "deleteBtn" th:href="${'/chat/delete/' + chat.id}" th:text="#{delete}">Eliminar</a></td>
+						<td><a th:id= "deleteInterestedBtn" th:href="${'/chat/delete/' + chat.id}" th:text="#{delete}">Eliminar</a></td>
 					</tr>
 				</tbody>
 			</table>
