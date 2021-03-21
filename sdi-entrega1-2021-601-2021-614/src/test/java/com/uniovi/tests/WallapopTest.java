@@ -50,12 +50,12 @@ import com.uniovi.tests.util.SeleniumUtils;
 public class WallapopTest {
 
 	// Parámetros de Laura
-	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+//	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+//	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 	
 	// Parámetros de Rut
-	//static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-//	static String Geckdriver024 = "C:\\Users\\rualg\\OneDrive\\Escritorio\\SDI\\Práctica5\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+	static String Geckdriver024 = "C:\\Users\\rualg\\OneDrive\\Escritorio\\SDI\\Práctica5\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 	
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
@@ -92,6 +92,7 @@ public class WallapopTest {
 		// Cerramos el navegador al finalizar las pruebas
 		driver.quit();
 	}
+	
 	
 	// Registro de usuario con datos válidos.
 	@Test
@@ -237,6 +238,7 @@ public class WallapopTest {
 
 	}
 	
+	
 	/* Ir a la lista de usuarios, borrar el primer usuario de la lista, comprobar
 	 * que la lista se actualiza y que el usuario desaparece.
 	 */
@@ -374,8 +376,9 @@ public class WallapopTest {
 		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
 				PO_View.getTimeout());
 		assertTrue(elementos2.size() ==3);
-	
+		
 	}
+	
 	
 	/* 
 	 * Ir a la lista de ofertas, borrar la primera oferta de la lista, comprobar
@@ -397,7 +400,7 @@ public class WallapopTest {
 		elementos.get(1).click();
 		
 		// Esperamos a que aparezca el Juguete y pinchamos en su enlace de borrado.
-		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Juguete')]/following-sibling::*/a[contains(@href, 'offer/delete')]");
+		elementos = PO_View.checkElement(driver, "id", "btnEliminarMyList");
 		elementos.get(0).click();
 		
 		// Esperamos a que vuelva a cargar la página.

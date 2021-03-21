@@ -91,8 +91,8 @@ public class OffersController {
 		Long offerUserId = offersService.getOfferById(id).getUser().getId();
 		Long authenticatedUserId = usersService.getUserAuthenticated().getId();
 		logger.info(usersService.getUserAuthenticated().getEmail()+" ha accedido a eliminar oferta"+offer.getTitulo());
-		if (offerUserId == authenticatedUserId) {
-			logger.info(usersService.getUserAuthenticated().getEmail()+" Error al eliminar oferta");
+		if (offerUserId.equals(authenticatedUserId)) {
+			logger.info(usersService.getUserAuthenticated().getEmail()+" ha eliminado la oferta " + offer.getTitulo());
 			offersService.removeOfferUser(offer,usersService.getUserAuthenticated());
 		}
 		return "redirect:/offer/mylist";

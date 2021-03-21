@@ -27,7 +27,8 @@
 						<td th:text="${offer.price}"></td>
 						<td>
 							<a th:if=${!offer.purchased} sec:authorize="hasRole('ROLE_STANDARD')"
-							th:href="${'/offer/delete/' + offer.id}" th:text="#{delete}">Eliminar</a>
+							th:href="${'/offer/delete/' + offer.id}" th:text="#{delete}"
+							id="btnEliminarMyList">Eliminar</a>
 						</td>
 						<td th:if=${offer.purchased} th:text="#{offer.list.sold}">	</td>
 					
