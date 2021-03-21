@@ -45,7 +45,7 @@ public class PO_PrivateView extends PO_NavView {
 	public static void searchOffer(WebDriver driver, String searchtext) {
 		
 		// Pinchamos en el buscador y escribimos el texto correspondiente.
-		WebElement searchOffer = driver.findElement(By.name("searchOffer"));
+		WebElement searchOffer = driver.findElement(By.name("searchText"));
 		searchOffer.click();
 		searchOffer.clear();
 		searchOffer.sendKeys(searchtext);

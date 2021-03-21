@@ -91,8 +91,8 @@ public class OffersController {
 	}
 	
 	@RequestMapping("/offer/purchase/{id}")
-	public String purchaseOffer(@PathVariable Long id, BindingResult result) {
-		Offer offer = offersService.getOfferById(id);
+	public String purchaseOffer(@PathVariable Long id, @Validated Offer offer, BindingResult result) {
+		offer = offersService.getOfferById(id);
 		User user = usersService.getUserAuthenticated();
 		offer.setPurchaser(user);
 		

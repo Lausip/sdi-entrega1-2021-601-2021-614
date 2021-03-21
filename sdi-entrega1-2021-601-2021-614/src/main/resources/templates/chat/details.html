@@ -15,7 +15,7 @@
 			<span th:inline="text" th:text="${theOtherUser.email}"></span>
 		</p>
 		<p>
-			<span th:inline="text" th:text="{chat.chat.offer}">Oferta:</span>
+			<span th:inline="text" th:text="#{chat.chat.offer}">Oferta:</span>
 			<span th:inline="text" th:text="${offer.titulo}"></span>
 		</p>
 	</div>
@@ -31,13 +31,13 @@
 			</thead>
 			<tbody>
 				<tr th:each="message : ${messagesList}">
-					<td th:if="${message.author.email != user.email}"></td>
+					<td th:if="${message.author.email != theOtherUser.email}"></td>
 					<td>
 						<p th:text="${message.author.email}"></p>
 						<p th:text="${message.date}"></p>
 						<p th:text="${message.text}"></p>
 					</td>
-					<td th:if="${message.author.email == user.email}"></td>
+					<td th:if="${message.author.email == theOtherUser.email}"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -45,10 +45,12 @@
 	</div>
 	
 	<div>
-		<form class="navbar-form" action="/message/add">
+		<form class="navbar-form" action="/message/add"  th:object="${message}">
 			<div class="form-group">
 				<input name="messageText" type="text" class="form-control" size="100"
 					placeholder="Message">
+				<input hidden th:value="${chat.id}">
+				<input hidden th:value="${chat.interested.id}">
 			</div>
 			<button type="submit" class="btn btn-default" th:text="#{send}">Enviar</button>
 		</form>

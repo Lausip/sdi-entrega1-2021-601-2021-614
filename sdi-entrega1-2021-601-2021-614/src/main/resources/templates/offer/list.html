@@ -6,7 +6,6 @@
 	<div class="container">
 	
 		<p th:replace="fragments/authenticated"></p>
-		
 	
 		<h2 th:text="#{offer.title3}"></h2>
 		<form class="navbar-form" action="/offer/list">
@@ -15,7 +14,7 @@
 				<input name="searchText" type="text" class="form-control" size="30"
 					th:placeholder="#{offers.list.search2}">
 			</div>
-			<button type="submit" class="btn btn-default">
+			<button type="submit" class="btn btn-default" name="searchOfferButton">
 				<span th:text="#{offers.list.searchBtn}"></span>
 			</button>
 		</form>
@@ -38,11 +37,12 @@
 						<td th:text="${offer.description}"></td>
 						<td th:text="${offer.price}"></td>
 						<td th:text="${offer.user.name +' '+offer.user.lastName}"></td>
-						<td th:if="${dinero >= offer.price}"><a
-							th:if="!${offer.purchased}"><span
-								th:text="#{offer.list.buy}"></span></a></td>
-						<td><a th:if="${offer.purchased}"><span
-								th:text="#{offer.list.sold}"></span></a></td>
+						<td th:if="${!offer.purchased}">
+							<a th:href="${'/offer/purchase/' + offer.id}" th:text="#{offer.list.buy}">
+							</a>
+						</td>
+						<td th:if="${offer.purchased}" th:text="#{offer.list.sold}"></td>
+						<td><a th:href="${'/chat/add/' + offer.id}" th:text="#{chat.chat}"></a></td>
 					</tr>
 				</tbody>
 			</table>

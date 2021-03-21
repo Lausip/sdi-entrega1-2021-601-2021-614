@@ -36,6 +36,14 @@ public class Message {
 		this.chat = chat;
 		this.date = new Date(new java.util.Date().getTime());
 	}
+	
+	public Message(String text) {
+		super();
+		this.text = text;
+		this.date = new Date(new java.util.Date().getTime());
+	}
+
+
 
 	public Message() {
 		

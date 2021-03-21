@@ -5,6 +5,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uniovi.entities.Chat;
+import com.uniovi.entities.Message;
 import com.uniovi.entities.Offer;
 import com.uniovi.entities.User;
 
@@ -19,6 +21,12 @@ public class InsertSampleDataService {
 
 	@Autowired
 	private OffersService offersService;
+	
+	@Autowired
+	private ChatsService chatsService;
+	
+	@Autowired
+	private MessagesService messagesService;
 
 	@PostConstruct
 	public void init() {
@@ -74,26 +82,62 @@ public class InsertSampleDataService {
 		
 		// Añadir ofertas
 		
-		Offer offer = new Offer("Juguete", "Juguete infantil", 10.0, user3,false);
+		// ofertas user3
+		Offer offer = new Offer("Pelota", "Pelota de playa", 10.0, user3,false);
 		offersService.addOffer(offer);
+		
+		offer = new Offer("Juguete", "Juguete infantil", 10.0, user3,false);
+		offersService.addOffer(offer);
+		Chat chat = new Chat(user3, user5, offer);
+		chatsService.addChat(chat);
+		Message message = new Message("Hola, soy Alberto, el precio es negociable?", user5, chat);
+		messagesService.addMessage(message);
+		message = new Message("Hola, cuánto me ofreces?", user3, chat);
+		messagesService.addMessage(message);
+		message = new Message("8€, qué te parece?", user5, chat);
+		messagesService.addMessage(message);
+		
 		offer = new Offer("Caja", "Caja de cartón azul", 5.0, user3,false);
 		offersService.addOffer(offer);
+		
 		offer = new Offer("Papel", "Papel de regalo", 1.0, user3,false);
 		offersService.addOffer(offer);
+		
 		offer = new Offer("Folios", "Paquete de 500 folios", 4.0, user3,false);
 		offersService.addOffer(offer);
+		
 		offer = new Offer("Bolígrafo", "Bolígrafo de tinta líquida", 2.0, user3,false);
 		offersService.addOffer(offer);
+		
 		offer = new Offer("Bicicleta", "Bicicleta infantil", 70.0, user3,false);
 		offersService.addOffer(offer);
+		
 		offer = new Offer("Patinete", "Patinete eléctrico", 280.0, user3,false);
 		offersService.addOffer(offer);
-		offer = new Offer("Rotuladores", "Rotuladores de colores", 12.0, user3,false);
-		offersService.addOffer(offer);		
+		chat = new Chat(user3, user5, offer);
+		chatsService.addChat(chat);
+		message = new Message("Hola, soy Alberto, cuánta potencia tiene el patinete?", user5, chat);
+		messagesService.addMessage(message);
 		
+		offer = new Offer("Rotuladores", "Rotuladores de colores", 12.0, user3,false);
+		offersService.addOffer(offer);
+		chat = new Chat(user3, user8, offer);
+		chatsService.addChat(chat);
+		message = new Message("Buenas tardes, cuántos rotuladores vienen?", user5, chat);
+		messagesService.addMessage(message);
+		message = new Message("Buenas, vienen 12", user3, chat);
+		messagesService.addMessage(message);
+		
+		offer = new Offer("Esterilla", "Esterilla de yoga", 10.0, user3,false);
+		offersService.addOffer(offer);
+		
+		// Ofertas user5
 		offer = new Offer("Pato", "Pato de goma", 3.0, user5,true);
 		offersService.addOffer(offer);
-		System.out.println("Pato: " + offer.getId());
+		chat = new Chat(user5, user3, offer);
+		chatsService.addChat(chat);
+		message = new Message("Hola!", user3, chat);
+		messagesService.addMessage(message);
 		
 		offer = new Offer("Vestido", "Vestido azul", 20.0, user5,false);
 		offersService.addOffer(offer);
@@ -106,6 +150,15 @@ public class InsertSampleDataService {
 		offer = new Offer("Saco", "Saco de dormir", 11.0, user5,false);
 		offersService.addOffer(offer);
 		
+		// Ofertas user 8
+		offer = new Offer("Zapatos", "Zapatos de baile", 11.0, user8,false);
+		offersService.addOffer(offer);
+		chat = new Chat(user8, user3, offer);
+		chatsService.addChat(chat);
+		message = new Message("Hola, estoy interesado", user3, chat);
+		messagesService.addMessage(message);
+		message = new Message("Hola, cuál es tu duda?", user8, chat);
+		messagesService.addMessage(message);
 	}
 
 }

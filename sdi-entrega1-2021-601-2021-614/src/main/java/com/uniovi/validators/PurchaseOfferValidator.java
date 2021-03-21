@@ -19,10 +19,12 @@ public class PurchaseOfferValidator implements Validator {
 		Offer offer = (Offer) target;
 		
 		if (offer.getUser().getId() == offer.getPurchaser().getId()) {
-			errors.rejectValue("comprar", "Error.offer.pruchase.user");
+			errors.reject("Error.offer.pruchase.user");
+			//errors.rejectValue("comprar", "Error.offer.pruchase.user");
 		}
 		if (offer.getPrice() > offer.getPurchaser().getMoney()) {
-			errors.rejectValue("comprar", "Error.offer.pruchase.money");
+			errors.reject("Error.offer.pruchase.money");
+			//errors.rejectValue("comprar", "Error.offer.pruchase.money");
 		}
 	}
 
