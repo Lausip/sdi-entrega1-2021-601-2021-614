@@ -50,12 +50,12 @@ import com.uniovi.tests.util.SeleniumUtils;
 public class WallapopTest {
 
 	// Parámetros de Laura
-//	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-//	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+	static String Geckdriver024 = "C:\\Users\\laura\\Escritorio\\Uni\\3-Uni\\2Semestre\\SDI\\LAB\\Sesion05\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 	
 	// Parámetros de Rut
-	static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
-	static String Geckdriver024 = "C:\\Users\\rualg\\OneDrive\\Escritorio\\SDI\\Práctica5\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
+	//static String PathFirefox65 = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+//	static String Geckdriver024 = "C:\\Users\\rualg\\OneDrive\\Escritorio\\SDI\\Práctica5\\PL-SDI-Sesión5-material\\PL-SDI-Sesión5-material\\geckodriver024win64.exe";
 	
 	// Común a Windows y a MACOSX
 	static WebDriver driver = getDriver(PathFirefox65, Geckdriver024);
@@ -209,7 +209,7 @@ public class WallapopTest {
 	// de sesión (Login).
 	@Test
 	public void PR10() {
-		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
 		PO_PrivateView.logout(driver);
 		SeleniumUtils.textoPresentePagina(driver, "Identifícate");
 	}
@@ -217,7 +217,7 @@ public class WallapopTest {
 	// autenticado.
 	@Test
 	public void PR11() {
-		PO_PrivateView.login(driver, "Javi@gmail.com", "123456");
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
 		PO_PrivateView.logout(driver);
 		SeleniumUtils.textoNoPresentePagina(driver, "Desconectar");
 	}
@@ -233,7 +233,7 @@ public class WallapopTest {
 		elementos.get(0).click();
 		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
 				PO_View.getTimeout());
-		assertTrue(elementos2.size() ==10);
+		assertTrue(elementos2.size() ==6);
 
 	}
 	
@@ -392,7 +392,7 @@ public class WallapopTest {
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
 		List<WebElement> elementos2 = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr",
 				PO_View.getTimeout());
-		assertTrue(elementos2.size() ==5);
+		assertTrue(elementos2.size() ==3);
 	
 	}
 	
@@ -490,11 +490,13 @@ public class WallapopTest {
 		buscar.sendKeys("");
 		buscar.click();
 		List<WebElement> elementos;
+		for(int i=0;i<=2;i++){
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
 		assertTrue(elementos.size() == 5);
-		driver.findElements(By.xpath("//a[contains(@class, 'page-link')]")).get(2).click();
+		driver.findElements(By.xpath("//a[contains(@class, 'page-link')]")).get(i+1).click();
+		}
 		elementos = SeleniumUtils.EsperaCargaPagina(driver, "free", "//tbody/tr", PO_View.getTimeout());
-		assertTrue(elementos.size() == 4);
+		assertTrue(elementos.size() == 2);
 
 	}
 	//Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se 
@@ -763,7 +765,7 @@ public class WallapopTest {
 	//adecuadamente en la vista del ofertante (-20).
 	@Test
 	public void PR36() {
-		PO_PrivateView.login(driver, "alberto@email.com", "123456");
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
 		String money = driver.findElement(By.id("money")).getText();
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
 		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0",true);
@@ -780,7 +782,7 @@ public class WallapopTest {
 	//usuarios y que el saldo del usuario se actualiza adecuadamente en la vista del ofertante (-20).
 	@Test
 	public void PR37() {
-		PO_PrivateView.login(driver, "alberto@email.com", "123456");
+		PO_PrivateView.login(driver, "pepe@email.com", "123456");
 		String money = driver.findElement(By.id("money")).getText();
 		driver.get(URL + "/home");
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/mylist");
@@ -791,14 +793,14 @@ public class WallapopTest {
 		driver.get(URL + "/home");
 		PO_PrivateView.logout(driver);
 		PO_PrivateView.login(driver, "fernando@email.com", "123456");
-		PO_HomeView.checkElement(driver, "text", "Saco");
+		PO_HomeView.checkElement(driver, "text", "Juguete");
 	}
 	
 	//Sobre el listado de ofertas de un usuario con menos de 20 euros de saldo, pinchar en el
 	//enlace Destacada y a continuación comprobar que se muestra el mensaje de saldo no suficiente.
 	@Test
 	public void PR38() {
-		PO_PrivateView.login(driver, "fernando@email.com", "123456");
+		PO_PrivateView.login(driver, "alberto@email.com", "123456");
 		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
 		PO_AddOfferView.fillForm(driver, "Hola", "Hola esto es una prueba", "15.0",false);
 		driver.get(URL + "/home");

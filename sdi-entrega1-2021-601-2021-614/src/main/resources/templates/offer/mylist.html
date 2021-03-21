@@ -36,7 +36,8 @@
 							<a type="button"  th:id="highlightBtn" class="btn btn-info"  
 							 th:href="${'/offer/destacada/' + offer.id}"  th:text="#{offer.mylist.highlight}" >
 								Destacar
-							</a>						
+							</a>
+							<p th:if="${session.highlight==true}" th:text="#{Error.highlight.insuficient}"></p>					
  						</div>
 						<div  th:if="${offer.highlight!=false && offer.getPurchaser() == null}" >
 							<a type="button"
