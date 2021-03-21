@@ -26,16 +26,17 @@
 						<td th:text="${offer.description}"></td>
 						<td th:text="${offer.price}"></td>
 						<td>
-							<a sec:authorize="hasRole('ROLE_STANDARD')"
+							<a th:if=${!offer.purchased} sec:authorize="hasRole('ROLE_STANDARD')"
 							th:href="${'/offer/delete/' + offer.id}" th:text="#{delete}">Eliminar</a>
 						</td>
+						<td th:if=${offer.purchased} th:text="#{offer.list.sold}">	</td>
+					
 						<td>
 						<div th:if="${offer.highlight == false && offer.getPurchaser() == null}">
 							<a type="button"  th:id="highlightBtn" class="btn btn-info"  
 							 th:href="${'/offer/destacada/' + offer.id}"  th:text="#{offer.mylist.highlight}" >
 								Destacar
-							</a>
-							
+							</a>						
  						</div>
 						<div  th:if="${offer.highlight!=false && offer.getPurchaser() == null}" >
 							<a type="button"
@@ -48,6 +49,7 @@
 				</tbody>
 			</table>
 		</div>
+		<div th:if="${highlight != null}" id="money-error" class="alert alert-danger" th:text="#{Error.highlight.insuficient}"></div>
 		<footer th:replace="fragments/pagination" />
 	</div>
 	<footer th:replace="fragments/footer" />

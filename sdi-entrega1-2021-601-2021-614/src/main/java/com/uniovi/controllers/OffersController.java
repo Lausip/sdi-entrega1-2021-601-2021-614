@@ -5,8 +5,8 @@ import java.util.LinkedList;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,7 +30,7 @@ import com.uniovi.validators.PurchaseOfferValidator;
 @Controller
 public class OffersController {
 	
-	private static final Logger logger = LogManager.getLogger(OffersController.class);
+	private Logger logger = LoggerFactory.getLogger(OffersController.class);
 	
 	@Autowired
 	private OffersService offersService;
@@ -47,6 +47,7 @@ public class OffersController {
 	
 	@RequestMapping(value = "/offer/add")
 	public String getOffer(Model model) {
+		logger.info(usersService.getUserAuthenticated().getEmail()+" ha accedido añadir ofertas");
 		model.addAttribute("offer", new Offer());
 		model.addAttribute("userAuthenticated", usersService.getUserAuthenticated());
 		return "offer/add";
@@ -57,13 +58,16 @@ public class OffersController {
 		User user=usersService.getUserAuthenticated();
 		offersService.addOfferUser(offer,user);
 		addOfferFormValidator.validate(offer, result);
+		
 		if (result.hasErrors()) {
+			logger.error(usersService.getUserAuthenticated().getEmail()+": Error al añadir");
 			offersService.removeOfferUser(offer,user);
 			model.addAttribute("userAuthenticated", usersService.getUserAuthenticated());
 			return "offer/add";
 		}
 
-		logger.info(String.format("Add item %s", offer.getTitulo()));
+		logger.info(String.format("%s añadió la oferta %s",user.getEmail(), offer.getTitulo()));
+		
 		model.addAttribute("myOffers", offersService.findAllByUser(pageable, usersService.getUserAuthenticated()));
 		return "redirect:/offer/mylist";
 	}
@@ -71,6 +75,9 @@ public class OffersController {
 	@RequestMapping(value = "/offer/mylist")
 	public String getOffersForUser(Model model, Pageable pageable) {
 		User user = usersService.getUserAuthenticated();
+		
+		logger.info(usersService.getUserAuthenticated().getEmail()+" ha accedido a listar sus ofertas");
+		
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 		offers = offersService.findAllByUser(pageable, user);
 		model.addAttribute("myOffers", offers.getContent());
@@ -80,11 +87,13 @@ public class OffersController {
 	}
 	
 	@RequestMapping("/offer/delete/{id}")
-	public String deleteOffer(@PathVariable Long id) {
+	public String deleteOffer(@PathVariable Long id) {	
 		Offer offer = offersService.getOfferById(id);
 		Long offerUserId = offersService.getOfferById(id).getUser().getId();
 		Long authenticatedUserId = usersService.getUserAuthenticated().getId();
+		logger.info(usersService.getUserAuthenticated().getEmail()+" ha accedido a eliminar oferta"+offer.getTitulo());
 		if (offerUserId == authenticatedUserId) {
+			logger.info(usersService.getUserAuthenticated().getEmail()+" Error al eliminar oferta");
 			offersService.removeOfferUser(offer,usersService.getUserAuthenticated());
 		}
 		return "redirect:/offer/mylist";
@@ -92,16 +101,18 @@ public class OffersController {
 	
 	@RequestMapping("/offer/purchase/{id}")
 	public String purchaseOffer(@PathVariable Long id, @Validated Offer offer, BindingResult result) {
+		logger.info(usersService.getUserAuthenticated().getEmail()+" ha accedido a comprar oferta");
 		offer = offersService.getOfferById(id);
 		User user = usersService.getUserAuthenticated();
 		offer.setPurchaser(user);
 		
 		purchaseOfferValidator.validate(offer, result);
 		if (result.hasErrors()) {
+			logger.error(user.getEmail()+"Error:comprar oferta");
 			offer.setPurchaser(null);
 			return "redirect:/offer/list";
 		}
-		
+		logger.info(String.format("%s compró la oferta %s",user.getEmail(), offer.getTitulo()));
 		user.decreaseMoney(offer.getPrice());
 		offer.setPurchaser(user);
 		offer.setPurchased(true);
@@ -112,6 +123,7 @@ public class OffersController {
 	@RequestMapping("/offer/purchasedlist")
 	public String getPurchasedOffersForUser(Model model, Pageable pageable) {
 		User purchaser = usersService.getUserAuthenticated();
+		logger.info(purchaser.getEmail()+" ha accedido al listado de ofertas compradas");
 		Page<Offer> purchasedOffers = offersService.findAllPurchasedByUser(pageable, purchaser);
 		model.addAttribute("purchasedOffers", purchasedOffers.getContent());
 		model.addAttribute("page", purchasedOffers);
@@ -122,6 +134,7 @@ public class OffersController {
 	@RequestMapping(value = "/offer/list")
 	public String getOffers(Model model, @PageableDefault(size = 5) Pageable pageable, @RequestParam(value = "", required = false) String searchText) {
 		User user = usersService.getUserAuthenticated();
+		logger.info(user.getEmail()+" ha accedido al listado de ofertas");
 		Page<Offer> offers = new PageImpl<Offer>(new LinkedList<Offer>());
 		if (searchText != null && !searchText.isEmpty()) {
 			searchText = "%"+searchText+"%";
@@ -138,16 +151,21 @@ public class OffersController {
 	
 	@RequestMapping("/offer/destacada/{id}")
 	public String highlighter(@PathVariable Long id,HttpSession session) {
+
 		Offer offer = offersService.getOfferById(id);
 		User user = usersService.getUserAuthenticated();
 
+		if(offer == null || user == null) {
+			throw new IllegalStateException("Illegal");
+		}
 		if(user.getMoney() < 20) {
+			logger.error("No suficiente dinero");
 			session.setAttribute("highlight", "Error.highlight.insuficient");
 			return "redirect:/offer/mylist";
 		}
 
 		offersService.setHighlight(offer, user);
-		logger.info(String.format("Hightlight offer %d", id));
+		logger.info(String.format("%s ha destacado la oferta %s", user.getEmail(),offer.getTitulo()));
 
 		return "redirect:/offer/mylist";
 	}
@@ -157,7 +175,7 @@ public class OffersController {
 		Offer offer = offersService.getOfferById(id);
 		User user = usersService.getUserAuthenticated();
 		offersService.setNoHighlight(offer, user);
-		logger.info(String.format("Normal offer %d", id));
+		logger.info(String.format("%s ha normalizado la oferta %s", user.getEmail(), offer.getTitulo()));
 
 		return "redirect:/offer/mylist";
 	}
