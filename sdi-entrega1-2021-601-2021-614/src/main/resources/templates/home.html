@@ -34,11 +34,12 @@
 						<td th:text="${offer.price}"></td>
 						<td th:text="${offer.user.name +' '+offer.user.lastName}"></td>
 						<td th:if="${userAuthenticated.money >= offer.price && offer.user.email!=userAuthenticated.email}">
-						<a th:if="!${offer.purchased}"><span
-								th:text="#{offer.list.buy}"></span></a>
+						<td th:if="${!offer.purchased}">
+							<a th:href="${'/offer/purchase/' + offer.id}" th:text="#{offer.list.buy}">
+							</a>
 						</td>
-						<td><a th:if="${offer.purchased}"><span
-								th:text="#{offer.list.sold}"></span></a></td>
+						<td>
+							<td th:if="${offer.purchased}" th:text="#{offer.list.sold}"></td>
 					</tr>
 				</tbody>
 			</table>
