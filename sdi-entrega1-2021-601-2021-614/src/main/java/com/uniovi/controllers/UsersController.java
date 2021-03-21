@@ -61,8 +61,8 @@ public class UsersController {
 		}
 		user.setRole(rolesService.getRoles()[0]);
 		usersService.addUser(user);
-		logger.info(usersService.getUserAuthenticated().getEmail()+" Se ha registrado");
 		securityService.autoLogin(user.getEmail(), user.getPasswordConfirm());
+		logger.info(usersService.getUserAuthenticated().getEmail()+" Se ha registrado");
 		return "redirect:home";
 	}
 	
