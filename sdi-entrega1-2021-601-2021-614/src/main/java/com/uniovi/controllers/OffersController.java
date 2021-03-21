@@ -167,12 +167,14 @@ public class OffersController {
 		}
 		if(user.getMoney() < 20) {
 			logger.error("No suficiente dinero");
-			session.setAttribute("highlight", "Error.highlight.insuficient");
+			session.setAttribute("highlight", true);
 			return "redirect:/offer/mylist";
 		}
-
+		else {
 		offersService.setHighlight(offer, user);
+		session.setAttribute("highlight", false);
 		logger.info(String.format("%s ha destacado la oferta %s", user.getEmail(),offer.getTitulo()));
+		}
 
 		return "redirect:/offer/mylist";
 	}
@@ -182,6 +184,9 @@ public class OffersController {
 		Offer offer = offersService.getOfferById(id);
 		User user = usersService.getUserAuthenticated();
 		offersService.setNoHighlight(offer, user);
+		if(user.getMoney() >= 20) {
+			session.setAttribute("highlight", false);
+		}
 		logger.info(String.format("%s ha normalizado la oferta %s", user.getEmail(), offer.getTitulo()));
 
 		return "redirect:/offer/mylist";
