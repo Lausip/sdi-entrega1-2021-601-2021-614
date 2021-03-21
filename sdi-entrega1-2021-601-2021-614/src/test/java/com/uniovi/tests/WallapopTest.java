@@ -17,7 +17,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.uniovi.tests.pageobjects.PO_AddOfferView;
 import com.uniovi.tests.pageobjects.PO_HomeView;
+import com.uniovi.tests.pageobjects.PO_ListUserView;
 import com.uniovi.tests.pageobjects.PO_LoginView;
+import com.uniovi.tests.pageobjects.PO_NavBarView;
 import com.uniovi.tests.pageobjects.PO_NavView;
 import com.uniovi.tests.pageobjects.PO_PrivateView;
 import com.uniovi.tests.pageobjects.PO_Properties;
@@ -623,24 +625,35 @@ public class WallapopTest {
 	@Test
 	public void PR27() {
 		
+		// Comprobamos la Página principal
+		PO_HomeView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+		
+		// Comprobamos las Opciones principales de usuario
+		PO_NavBarView.checkChangeIdiomNoAuthenticated(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+		
+		// Iniciamos sesión como el usuario administrador.
+		PO_PrivateView.login(driver, "admin@email.com", "admin");
+		
+		// Comprobamos las Opciones principales de usuario
+		PO_NavBarView.checkChangeIdiomAuthenticated(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+		
+		// Accedemos a la vista de ver el listado de usuarios.
+		PO_NavView.clickDropdownMenuOption(driver, "users-dropdown", "users-menu", "user/list");
+		
+		// Comprobamos el Listado de usuarios
+		PO_ListUserView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
+		
+		// Nos desconectamos.
+		PO_PrivateView.logout(driver);
+		
 		// Iniciamos sesión como el usuario pepe.
 		PO_PrivateView.login(driver, "pepe@email.com", "123456");
 		
-		// Accedemos a la vista de ofertas.
-		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/purchasedlist");
+		// Accedemos a la vista de agregar ofertas.
+		PO_NavView.clickDropdownMenuOption(driver, "offers-dropdown", "offers-menu", "offer/add");
 		
-		// Esperamos a que se muestre los botones de paginación.
-		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
-		
-		// Comprobamos que estamos en la primera página.
-		elementos.get(1).click();
-		
-		// Comprobamos que las ofertas compradas están en la lista.
-		SeleniumUtils.textoPresentePagina(driver, "Vestido");
-		SeleniumUtils.textoPresentePagina(driver, "Vestido azul");
-		SeleniumUtils.textoPresentePagina(driver, "Tienda");
-		SeleniumUtils.textoPresentePagina(driver, "Tienda de campaña");
-		SeleniumUtils.textoPresentePagina(driver, "alberto@email.com");
+		// Comprobamos la Vista de alta de oferta
+		PO_AddOfferView.checkChangeIdiom(driver, "btnSpanish", "btnEnglish", PO_Properties.getSPANISH(), PO_Properties.getENGLISH());
 		
 		// Finalmente, nos desconectamos.
 		PO_PrivateView.logout(driver);

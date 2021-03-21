@@ -123,7 +123,7 @@ public class InsertSampleDataService {
 		offersService.addOffer(offer);
 		chat = new Chat(user3, user8, offer);
 		chatsService.addChat(chat);
-		message = new Message("Buenas tardes, cuántos rotuladores vienen?", user5, chat);
+		message = new Message("Buenas tardes, cuántos rotuladores vienen?", user8, chat);
 		messagesService.addMessage(message);
 		message = new Message("Buenas, vienen 12", user3, chat);
 		messagesService.addMessage(message);
@@ -141,11 +141,9 @@ public class InsertSampleDataService {
 		
 		offer = new Offer("Vestido", "Vestido azul", 20.0, user5,false);
 		offersService.addOffer(offer);
-		System.out.println("Vestido: " + offer.getId());
 		
 		offer = new Offer("Tienda", "Tienda de campaña", 80.0, user5,false);
 		offersService.addOffer(offer);
-		System.out.println("Tienda: " + offer.getId());
 		
 		offer = new Offer("Saco", "Saco de dormir", 11.0, user5,false);
 		offersService.addOffer(offer);
