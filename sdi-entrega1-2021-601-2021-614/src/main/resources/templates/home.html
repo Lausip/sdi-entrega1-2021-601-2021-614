@@ -34,8 +34,8 @@
 						<td th:text="${offer.price}"></td>
 						<td th:text="${offer.user.name +' '+offer.user.lastName}"></td>
 						<td th:if="${userAuthenticated.money >= offer.price && offer.user.email!=userAuthenticated.email}">
-						<td th:if="${!offer.purchased}">
-							<a th:href="${'/offer/purchase/' + offer.id}" th:text="#{offer.list.buy}">
+						<td th:if="${!offer.purchased}" sec:authorize="hasRole('ROLE_STANDARD')">
+							<a  th:href="${'/offer/purchase/' + offer.id}" th:text="#{offer.list.buy}">
 							</a>
 						</td>
 						<td>
