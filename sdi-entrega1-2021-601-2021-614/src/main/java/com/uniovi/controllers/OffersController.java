@@ -2,7 +2,6 @@ package com.uniovi.controllers;
 
 
 import java.util.LinkedList;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -110,7 +109,7 @@ public class OffersController {
 		if (result.hasErrors()) {
 			logger.error(user.getEmail()+"Error:comprar oferta");
 			offer.setPurchaser(null);
-			return "redirect:/offer/list";
+			return "redirect:/offer/purchase/error";
 		}
 		logger.info(String.format("%s compró la oferta %s",user.getEmail(), offer.getTitulo()));
 		user.decreaseMoney(offer.getPrice());
@@ -118,6 +117,14 @@ public class OffersController {
 		offer.setPurchased(true);
 		offersService.addOffer(offer);
 		return "redirect:/offer/purchasedlist";
+	}
+	
+	@RequestMapping("/offer/purchase/error")
+	public String purchaseOfferError(Model model) {
+		User user = usersService.getUserAuthenticated();
+		model.addAttribute("userAuthenticated", user);
+		model.addAttribute("error", "La compra no se puede realizar, ya que no dispone del saldo necesario.");
+		return "offer/error";
 	}
 	
 	@RequestMapping("/offer/purchasedlist")

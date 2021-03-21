@@ -571,10 +571,10 @@ public class WallapopTest {
 		List<WebElement> elementos = PO_View.checkElement(driver, "free", "//a[contains(@class, 'page-link')]");
 		
 		// Buscamos el texto "vest" en el buscador.
-		PO_PrivateView.searchOffer(driver, "vest");
+		PO_PrivateView.searchOffer(driver, "juguet");
 		
-		// Esperamos a que aparezca el Vestido y pinchamos en su enlace de Comprar.
-		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Vestido')]/following-sibling::*/a[contains(@href, 'offer/purchase')]");
+		// Esperamos a que aparezca el Juguete y pinchamos en su enlace de Comprar.
+		elementos = PO_View.checkElement(driver, "free", "//td[contains(text(), 'Juguete')]/following-sibling::*/a[contains(@href, 'offer/purchase')]");
 		elementos.get(0).click();
 		
 		// Comprobamos que sale un mensaje de error dieciendo que el usuario no tiene saldo suficiente.
